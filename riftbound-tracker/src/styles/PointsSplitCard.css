@@ -1,0 +1,92 @@
+/* ── Outer split-card shell ──────────────────────────────────────── */
+
+.points-split-card {
+  /* inherit tracker-card--large base styles but override layout */
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 0;
+  overflow: hidden;
+  gap: 0;
+}
+
+.points-split-card.tracker-card--collapsed {
+  align-items: center;
+  justify-content: center;
+}
+
+/* Collapsed state inherits from .tracker-card--collapsed */
+
+/* ── Divider ─────────────────────────────────────────────────────── */
+
+.points-split-card__divider {
+  flex: 0 0 1px;
+  background: rgba(0, 190, 200, 0.35);
+  width: calc(100% - 40px);
+  align-self: flex-start;
+}
+
+/* ── Each half ──────────────────────────────────────────────────── */
+
+.split-half {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  gap: 0;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+}
+
+.split-half--flipped {
+  transform: rotate(180deg);
+}
+
+.split-half__bottom-info {
+  position: absolute;
+  bottom: 6px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  pointer-events: none;
+}
+
+.split-half__right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0.85;
+}
+
+.split-half .tracker-value {
+  font-size: clamp(96px, 24vw, 140px);
+}
+
+/* ── Sideways "POINTS" label ─────────────────────────────────────── */
+
+.points-split-card__sideways-label {
+  position: absolute;
+  right: 6px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  font-size: 1.3rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.95);
+  pointer-events: none;
+}

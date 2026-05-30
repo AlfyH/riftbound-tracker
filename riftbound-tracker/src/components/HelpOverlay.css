@@ -92,3 +92,39 @@
   color: rgba(255, 255, 255, 0.5);
   line-height: 1.4;
 }
+
+/* ── Player toggle button ───────────────────────────────────────── */
+
+.help-overlay__actions {
+  margin-top: 18px;
+}
+
+.help-overlay__player-btn {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(0, 180, 200, 0.1);
+  border: 1px solid rgba(0, 180, 200, 0.3);
+  color: rgba(0, 220, 240, 0.9);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.help-overlay__player-btn:active {
+  background: rgba(0, 180, 200, 0.25);
+}
+
+.help-overlay__player-btn--active {
+  background: rgba(180, 30, 40, 0.15);
+  border-color: rgba(180, 30, 40, 0.4);
+  color: rgba(240, 80, 90, 0.9);
+}
+
+.help-overlay__player-btn--active:active {
+  background: rgba(180, 30, 40, 0.3);
+}

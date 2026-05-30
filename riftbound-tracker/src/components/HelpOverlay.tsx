@@ -3,6 +3,8 @@ import './HelpOverlay.css';
 
 interface HelpOverlayProps {
   onClose: () => void;
+  twoPlayer: boolean;
+  onToggleTwoPlayer: () => void;
 }
 
 const INTERACTIONS = [
@@ -14,7 +16,7 @@ const INTERACTIONS = [
   { gesture: 'Points timestamp', description: 'Shows how long ago Points was last changed' },
 ];
 
-const HelpOverlay: React.FC<HelpOverlayProps> = ({ onClose }) => (
+const HelpOverlay: React.FC<HelpOverlayProps> = ({ onClose, twoPlayer, onToggleTwoPlayer }) => (
   <div className="help-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label="Interactions help">
     <div className="help-overlay__panel" onClick={(e) => e.stopPropagation()}>
       <div className="help-overlay__header">
@@ -29,6 +31,15 @@ const HelpOverlay: React.FC<HelpOverlayProps> = ({ onClose }) => (
           </li>
         ))}
       </ul>
+      <div className="help-overlay__actions">
+        <button
+          className={`help-overlay__player-btn${twoPlayer ? ' help-overlay__player-btn--active' : ''}`}
+          onClick={onToggleTwoPlayer}
+          type="button"
+        >
+          {twoPlayer ? '✕ Remove Player 2' : '+ Add Player 2'}
+        </button>
+      </div>
     </div>
   </div>
 );

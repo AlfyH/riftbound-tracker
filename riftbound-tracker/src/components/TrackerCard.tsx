@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import '../styles/TrackerCard.css';
+import { renderValue } from '../utils/renderValue';
 
 export interface TrackerCardProps {
   label: string;
@@ -14,6 +15,8 @@ export interface TrackerCardProps {
   collapsed?: boolean;
   onToggleCollapse?: () => void;
   onHelp?: () => void;
+  onAddPlayer?: () => void;
+  flipped?: boolean;
 }
 
 type FeedbackType = '+1' | '-1' | null;
@@ -30,6 +33,8 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
   collapsed = false,
   onToggleCollapse,
   onHelp,
+  onAddPlayer,
+  flipped = false,
 }) => {
   const [feedback, setFeedback] = useState<FeedbackType>(null);
   const lastTapTimeRef = useRef<number>(0);
@@ -82,13 +87,13 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
     onSwipedUp: () => {
       if (collapsed) return;
       wasSwipingRef.current = true;
-      handleIncrement();
+      flipped ? handleDecrement() : handleIncrement();
       setTimeout(() => { wasSwipingRef.current = false; }, 100);
     },
     onSwipedDown: () => {
       if (collapsed) return;
       wasSwipingRef.current = true;
-      handleDecrement();
+      flipped ? handleIncrement() : handleDecrement();
       setTimeout(() => { wasSwipingRef.current = false; }, 100);
     },
     preventScrollOnSwipe: !collapsed,
@@ -105,6 +110,7 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
     accent === 'yellow' ? 'tracker-card--yellow' : '',
     accent === 'grey' ? 'tracker-card--grey' : '',
     collapsed ? 'tracker-card--collapsed' : '',
+    flipped ? 'tracker-card--flipped' : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -133,6 +139,16 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
           ?
         </button>
       )}
+      {onAddPlayer && (
+        <button
+          className="tracker-card__add-player-btn"
+          onClick={(e) => { e.stopPropagation(); onAddPlayer(); }}
+          aria-label="Add second player"
+          type="button"
+        >
+          +
+        </button>
+      )}
       {onToggleCollapse && (
         <button
           className="tracker-card__collapse-btn"
@@ -147,13 +163,14 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
         <>
           <div className="tracker-card__left">
             <span className="tracker-label">{label}</span>
-            {subtitle && <span className="tracker-subtitle">{subtitle}</span>}
-            <span className="tracker-hint">↑ swipe ↓</span>
           </div>
           <div className="tracker-card__right">
             <span key={value} className="tracker-value">
-              {value}
+              {renderValue(value)}
             </span>
+          </div>
+          <div className="tracker-card__bottom-info">
+            {subtitle && <span className="tracker-subtitle">{subtitle}</span>}
           </div>
         </>
       )}

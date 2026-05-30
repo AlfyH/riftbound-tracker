@@ -69,6 +69,12 @@
   line-height: 0.85;
 }
 
+.split-half__number-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 /* ── Flip button ────────────────────────────────────────────────── */
 
 .split-half__flip-btn {
@@ -99,10 +105,9 @@
 
 .split-half__name-input {
   position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 120px;
+  right: 100%;
+  margin-right: 12px;
+  width: 200px;
   background: transparent;
   border: none;
   color: #ffffff;
@@ -110,8 +115,10 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  text-align: right;
   padding: 2px 4px;
   outline: none;
+  flex-shrink: 0;
   -webkit-tap-highlight-color: transparent;
 }
 

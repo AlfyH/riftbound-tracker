@@ -9,8 +9,8 @@ const LINE_STYLE: React.CSSProperties = {
 
 export function renderValue(value: number): React.ReactNode {
   return String(value).split('').map((digit, i) => {
-    if (digit === '6') return <span key={i} style={{ ...LINE_STYLE, borderBottom: '2px solid currentColor' }}>{digit}</span>;
-    if (digit === '9') return <span key={i} style={{ ...LINE_STYLE, borderBottom: '2px solid currentColor' }}>{digit}</span>;
-    return digit;
+    if (digit === '6') return <span key={`${i}-6`} style={{ ...LINE_STYLE, borderBottom: '2px solid currentColor' }}>{digit}</span>;
+    if (digit === '9') return <span key={`${i}-9`} style={{ ...LINE_STYLE, borderBottom: '2px solid currentColor' }}>{digit}</span>;
+    return <React.Fragment key={i}>{digit}</React.Fragment>;
   });
 }

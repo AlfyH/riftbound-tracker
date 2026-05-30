@@ -36,7 +36,12 @@ const Half: React.FC<HalfProps> = ({
   };
 
   const handleIncrement = () => { onIncrement(); triggerFeedback('+1'); vibrate(); };
-  const handleDecrement = () => { if (value <= 0) return; onDecrement(); triggerFeedback('-1'); vibrate(); };
+  const handleDecrement = () => {
+    if (value <= 0) return;
+    onDecrement();
+    triggerFeedback('-1');
+    vibrate();
+  };
 
   const swipeHandlers = useSwipeable({
     onSwipedUp: () => {
@@ -51,7 +56,7 @@ const Half: React.FC<HalfProps> = ({
     },
     preventScrollOnSwipe: true,
     trackTouch: true,
-    trackMouse: false,
+    trackMouse: true,
     delta: 15,
   });
 
@@ -73,7 +78,6 @@ const Half: React.FC<HalfProps> = ({
       {...swipeHandlers}
       className={`split-half${flipped ? ' split-half--flipped' : ''}`}
       onClick={handleTap}
-      role="button"
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === 'ArrowUp' || e.key === '+') handleIncrement();
@@ -81,20 +85,20 @@ const Half: React.FC<HalfProps> = ({
       }}
       aria-label={`Points: ${value}. Swipe up to add, swipe down to subtract, double-tap to reset.`}
     >
-      {onFlip && (
-        <input
-          className="split-half__name-input"
-          value={playerName}
-          onChange={(e) => setPlayerName(e.target.value)}
-          onClick={(e) => e.stopPropagation()}
-          onTouchStart={(e) => e.stopPropagation()}
-          placeholder="Player"
-          maxLength={12}
-          type="text"
-        />
-      )}
       <div className="split-half__right">
-        <span key={value} className="tracker-value">{renderValue(value)}</span>
+        <div className="split-half__number-wrap">
+          <input
+            className="split-half__name-input"
+            value={playerName}
+            onChange={(e) => setPlayerName(e.target.value)}
+            onClick={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+            placeholder="Name"
+            maxLength={20}
+            type="text"
+          />
+          <span key={value} className="tracker-value">{renderValue(value)}</span>
+        </div>
       </div>
       <div className="split-half__bottom-info">
         {subtitle && <span className="tracker-subtitle">{subtitle}</span>}
@@ -131,15 +135,9 @@ export interface PointsSplitCardProps {
 const PointsSplitCard: React.FC<PointsSplitCardProps> = ({
   values, onIncrements, onDecrements, onResets, subtitles, collapsed, onToggleCollapse,
 }) => {
-  const defaultFlipped = values.map((_, i) => i >= Math.ceil(values.length / 2));
-  const [flippedStates, setFlippedStates] = useState<boolean[]>(defaultFlipped);
-
-  // Reset flip states when player count changes
-  const prevCountRef = React.useRef(values.length);
-  if (prevCountRef.current !== values.length) {
-    prevCountRef.current = values.length;
-    setFlippedStates(values.map((_, i) => i >= Math.ceil(values.length / 2)));
-  }
+  const [flippedStates, setFlippedStates] = useState<boolean[]>(
+    () => values.map((_, i) => i >= Math.ceil(values.length / 2))
+  );
 
   const toggleFlip = (idx: number) => {
     setFlippedStates((prev) => prev.map((v, i) => i === idx ? !v : v));

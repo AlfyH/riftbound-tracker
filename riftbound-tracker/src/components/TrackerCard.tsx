@@ -87,18 +87,18 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
     onSwipedUp: () => {
       if (collapsed) return;
       wasSwipingRef.current = true;
-      flipped ? handleDecrement() : handleIncrement();
+      if (flipped) { handleDecrement(); } else { handleIncrement(); }
       setTimeout(() => { wasSwipingRef.current = false; }, 100);
     },
     onSwipedDown: () => {
       if (collapsed) return;
       wasSwipingRef.current = true;
-      flipped ? handleIncrement() : handleDecrement();
+      if (flipped) { handleIncrement(); } else { handleDecrement(); }
       setTimeout(() => { wasSwipingRef.current = false; }, 100);
     },
     preventScrollOnSwipe: !collapsed,
     trackTouch: true,
-    trackMouse: false,
+    trackMouse: true,
     delta: 15,
   });
 
@@ -120,7 +120,6 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
       {...swipeHandlers}
       className={cardClass}
       onClick={handleTap}
-      role="button"
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === 'ArrowUp' || e.key === '+') handleIncrement();
@@ -136,7 +135,7 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
           aria-label="Show help"
           type="button"
         >
-          ?
+          ☰
         </button>
       )}
       {onAddPlayer && (

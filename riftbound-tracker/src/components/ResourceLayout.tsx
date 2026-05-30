@@ -12,8 +12,8 @@ interface ResourceLayoutProps {
   playerCount: number;
 }
 
-function timeAgo(date: Date): string {
-  const secs = Math.floor((Date.now() - date.getTime()) / 1000);
+function timeAgo(date: Date, now: number): string {
+  const secs = Math.floor((now - date.getTime()) / 1000);
   if (secs < 5) return 'just now';
   if (secs < 60) return `${secs}s ago`;
   const mins = Math.floor(secs / 60);
@@ -39,57 +39,13 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
   const [lastChangedEnergy, setLastChangedEnergy] = useState(() => new Date());
   const [lastChangedPower, setLastChangedPower] = useState(() => new Date());
   const [lastChangedXp, setLastChangedXp] = useState(() => new Date());
-  const [, setTick] = useState(0);
+  const [tickedNow, setTickedNow] = useState(() => Date.now());
   const [pointsCollapsed, setPointsCollapsed] = useState(false);
   const [xpCollapsed, setXpCollapsed] = useState(false);
   const [floatingCollapsed, setFloatingCollapsed] = useState(false);
 
-  // Record when points value changes
-  const prevPointsRef = React.useRef(state.points);
-  if (prevPointsRef.current !== state.points) {
-    prevPointsRef.current = state.points;
-    setLastChanged(new Date());
-  }
-
-  // Record when points2 value changes
-  const prevPoints2Ref = React.useRef(state.points2);
-  if (prevPoints2Ref.current !== state.points2) {
-    prevPoints2Ref.current = state.points2;
-    setLastChanged2(new Date());
-  }
-
-  const prevPoints3Ref = React.useRef(state.points3);
-  if (prevPoints3Ref.current !== state.points3) {
-    prevPoints3Ref.current = state.points3;
-    setLastChanged3(new Date());
-  }
-
-  const prevPoints4Ref = React.useRef(state.points4);
-  if (prevPoints4Ref.current !== state.points4) {
-    prevPoints4Ref.current = state.points4;
-    setLastChanged4(new Date());
-  }
-
-  const prevEnergyRef = React.useRef(state.energy);
-  if (prevEnergyRef.current !== state.energy) {
-    prevEnergyRef.current = state.energy;
-    setLastChangedEnergy(new Date());
-  }
-
-  const prevPowerRef = React.useRef(state.power);
-  if (prevPowerRef.current !== state.power) {
-    prevPowerRef.current = state.power;
-    setLastChangedPower(new Date());
-  }
-
-  const prevXpRef = React.useRef(state.xp);
-  if (prevXpRef.current !== state.xp) {
-    prevXpRef.current = state.xp;
-    setLastChangedXp(new Date());
-  }
-
   useEffect(() => {
-    const id = setInterval(() => setTick((t) => t + 1), 5000);
+    const id = setInterval(() => setTickedNow(Date.now()), 5000);
     return () => clearInterval(id);
   }, []);
 
@@ -98,30 +54,31 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
       <div className={`resource-layout__cards${playerCount > 1 ? ' resource-layout__cards--two-player' : ''}`}>
         {playerCount > 1 ? (
           <PointsSplitCard
+            key={playerCount}
             values={[state.points, state.points2, state.points3, state.points4].slice(0, playerCount)}
             onIncrements={[
-              () => onIncrement('points'),
-              () => onIncrement('points2'),
-              () => onIncrement('points3'),
-              () => onIncrement('points4'),
+              () => { setLastChanged(new Date()); onIncrement('points'); },
+              () => { setLastChanged2(new Date()); onIncrement('points2'); },
+              () => { setLastChanged3(new Date()); onIncrement('points3'); },
+              () => { setLastChanged4(new Date()); onIncrement('points4'); },
             ].slice(0, playerCount)}
             onDecrements={[
-              () => onDecrement('points'),
-              () => onDecrement('points2'),
-              () => onDecrement('points3'),
-              () => onDecrement('points4'),
+              () => { setLastChanged(new Date()); onDecrement('points'); },
+              () => { setLastChanged2(new Date()); onDecrement('points2'); },
+              () => { setLastChanged3(new Date()); onDecrement('points3'); },
+              () => { setLastChanged4(new Date()); onDecrement('points4'); },
             ].slice(0, playerCount)}
             onResets={[
-              () => onResetTracker('points'),
-              () => onResetTracker('points2'),
-              () => onResetTracker('points3'),
-              () => onResetTracker('points4'),
+              () => { setLastChanged(new Date()); onResetTracker('points'); },
+              () => { setLastChanged2(new Date()); onResetTracker('points2'); },
+              () => { setLastChanged3(new Date()); onResetTracker('points3'); },
+              () => { setLastChanged4(new Date()); onResetTracker('points4'); },
             ].slice(0, playerCount)}
             subtitles={[
-              `Updated ${timeAgo(lastChanged)}`,
-              `Updated ${timeAgo(lastChanged2)}`,
-              `Updated ${timeAgo(lastChanged3)}`,
-              `Updated ${timeAgo(lastChanged4)}`,
+              `Updated ${timeAgo(lastChanged, tickedNow)}`,
+              `Updated ${timeAgo(lastChanged2, tickedNow)}`,
+              `Updated ${timeAgo(lastChanged3, tickedNow)}`,
+              `Updated ${timeAgo(lastChanged4, tickedNow)}`,
             ].slice(0, playerCount)}
             collapsed={pointsCollapsed}
             onToggleCollapse={() => setPointsCollapsed((v) => !v)}
@@ -130,11 +87,11 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
           <TrackerCard
             label="Points"
             value={state.points}
-            onIncrement={() => onIncrement('points')}
-            onDecrement={() => onDecrement('points')}
-            onReset={() => onResetTracker('points')}
+            onIncrement={() => { setLastChanged(new Date()); onIncrement('points'); }}
+            onDecrement={() => { setLastChanged(new Date()); onDecrement('points'); }}
+            onReset={() => { setLastChanged(new Date()); onResetTracker('points'); }}
             size="large"
-            subtitle={`Updated ${timeAgo(lastChanged)}`}
+            subtitle={`Updated ${timeAgo(lastChanged, tickedNow)}`}
             collapsed={pointsCollapsed}
             onToggleCollapse={() => setPointsCollapsed((v) => !v)}
           />
@@ -157,20 +114,20 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
               <TrackerCard
                 label="Energy"
                 value={state.energy}
-                onIncrement={() => onIncrement('energy')}
-                onDecrement={() => onDecrement('energy')}
-                onReset={() => onResetTracker('energy')}
+                onIncrement={() => { setLastChangedEnergy(new Date()); onIncrement('energy'); }}
+                onDecrement={() => { setLastChangedEnergy(new Date()); onDecrement('energy'); }}
+                onReset={() => { setLastChangedEnergy(new Date()); onResetTracker('energy'); }}
                 accent="orange"
-                subtitle={`Updated ${timeAgo(lastChangedEnergy)}`}
+                subtitle={`Updated ${timeAgo(lastChangedEnergy, tickedNow)}`}
               />
               <TrackerCard
                 label="Power"
                 value={state.power}
-                onIncrement={() => onIncrement('power')}
-                onDecrement={() => onDecrement('power')}
-                onReset={() => onResetTracker('power')}
+                onIncrement={() => { setLastChangedPower(new Date()); onIncrement('power'); }}
+                onDecrement={() => { setLastChangedPower(new Date()); onDecrement('power'); }}
+                onReset={() => { setLastChangedPower(new Date()); onResetTracker('power'); }}
                 accent="red"
-                subtitle={`Updated ${timeAgo(lastChangedPower)}`}
+                subtitle={`Updated ${timeAgo(lastChangedPower, tickedNow)}`}
               />
             </div>
           )}
@@ -178,11 +135,11 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
         <TrackerCard
           label="XP"
           value={state.xp}
-          onIncrement={() => onIncrement('xp')}
-          onDecrement={() => onDecrement('xp')}
-          onReset={() => onResetTracker('xp')}
+          onIncrement={() => { setLastChangedXp(new Date()); onIncrement('xp'); }}
+          onDecrement={() => { setLastChangedXp(new Date()); onDecrement('xp'); }}
+          onReset={() => { setLastChangedXp(new Date()); onResetTracker('xp'); }}
           accent="yellow"
-          subtitle={`Updated ${timeAgo(lastChangedXp)}`}
+          subtitle={`Updated ${timeAgo(lastChangedXp, tickedNow)}`}
           collapsed={xpCollapsed}
           onToggleCollapse={() => setXpCollapsed((v) => !v)}
           onHelp={onOpenHelp}

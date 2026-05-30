@@ -18,7 +18,7 @@
   flex-direction: column;
   gap: 6px;
   flex: 1;
-  min-height: calc(50vw - 27px + 80px);
+  min-height: 250px;
   background: linear-gradient(160deg, rgba(80, 30, 10, 0.18), rgba(10, 20, 50, 0.25));
   border: 1px solid rgba(180, 80, 20, 0.2);
   border-radius: 22px;
@@ -88,7 +88,6 @@
 
 .floating-group__row .tracker-card {
   flex: 1;
-  min-height: calc(50vw - 27px);
   width: calc(50% - 3px);
   padding: 8px 12px;
   border-radius: 14px;

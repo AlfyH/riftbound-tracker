@@ -142,3 +142,24 @@
   border-color: rgba(0, 220, 240, 0.5);
   color: rgba(0, 220, 240, 0.9);
 }
+
+/* ── Credit ─────────────────────────────────────────────────────── */
+
+.help-overlay__credit {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.25);
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.help-overlay__credit a {
+  color: rgba(0, 200, 220, 0.4);
+  text-decoration: none;
+}
+
+.help-overlay__credit a:active {
+  color: rgba(0, 220, 240, 0.7);
+}

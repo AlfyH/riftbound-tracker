@@ -48,6 +48,9 @@ const HelpOverlay: React.FC<HelpOverlayProps> = ({ onClose, playerCount, onSetPl
           ))}
         </div>
       </div>
+      <div className="help-overlay__credit">
+        Made by Alfy Hushairi &middot; <a href="https://anadillo.co.uk" target="_blank" rel="noopener noreferrer">anadillo.co.uk</a>
+      </div>
     </div>
   </div>
 );

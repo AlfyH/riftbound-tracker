@@ -1,0 +1,31 @@
+/* ── App shell ──────────────────────────────────────────────────── */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh; /* dynamic viewport height – accounts for mobile browser chrome */
+  background: #060f08;
+  overflow: hidden;
+}
+
+/* ── Resource layout ────────────────────────────────────────────── */
+
+.resource-layout {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.resource-layout__cards {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: 8px;
+  padding: 10px 10px;
+  /* Add bottom safe-area padding for devices with home indicator */
+  padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  overflow: hidden;
+}

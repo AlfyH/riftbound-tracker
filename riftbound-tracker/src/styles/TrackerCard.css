@@ -1,0 +1,265 @@
+/* ── TrackerCard ─────────────────────────────────────────────────── */
+
+.tracker-card {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  background: linear-gradient(145deg, #0b2b1c, #0f3d24);
+  border-radius: 20px;
+  padding: 12px 20px 16px;
+
+  flex: 1;
+  min-height: 0; /* allow flex shrink */
+
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none; /* hand off all touch handling to JS */
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+
+  border: 1px solid rgba(0, 200, 80, 0.12);
+  box-shadow:
+    0 0 18px rgba(0, 200, 80, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.tracker-card:active {
+  box-shadow:
+    0 0 30px rgba(0, 255, 100, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* ── Large variant (Points) ──────────────────────────────────────── */
+
+.tracker-card--large {
+  flex: 2.2;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #0b3020, #114530);
+  border: 1px solid rgba(0, 220, 90, 0.2);
+  box-shadow:
+    0 0 30px rgba(0, 220, 80, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.tracker-card--large:active {
+  box-shadow:
+    0 0 45px rgba(0, 255, 110, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ── Red accent variant (Floating Power) ────────────────────────── */
+
+.tracker-card--red {
+  background: linear-gradient(145deg, #2b0b0b, #3d0f0f);
+  border: 1px solid rgba(200, 60, 60, 0.25);
+  box-shadow:
+    0 0 18px rgba(200, 60, 60, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.tracker-card--red:active {
+  box-shadow:
+    0 0 30px rgba(255, 80, 80, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.tracker-card--red .tracker-label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tracker-card--red .tracker-hint {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ── Orange accent variant (Floating Energy) ─────────────────────── */
+
+.tracker-card--orange {
+  background: linear-gradient(145deg, #2b1a0b, #3d2810);
+  border: 1px solid rgba(220, 120, 40, 0.25);
+  box-shadow:
+    0 0 18px rgba(220, 120, 40, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.tracker-card--orange:active {
+  box-shadow:
+    0 0 30px rgba(255, 150, 50, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.tracker-card--orange .tracker-label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tracker-card--orange .tracker-hint {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ── Yellow accent variant (XP) ─────────────────────────────────── */
+
+.tracker-card--yellow {
+  background: linear-gradient(145deg, #2b2608, #3d360e);
+  border: 1px solid rgba(220, 200, 40, 0.25);
+  box-shadow:
+    0 0 18px rgba(220, 200, 40, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.tracker-card--yellow:active {
+  box-shadow:
+    0 0 30px rgba(255, 235, 60, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.tracker-card--yellow .tracker-label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tracker-card--yellow .tracker-hint {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ── Grey accent variant (Rune Count) ───────────────────────────── */
+
+.tracker-card--grey {
+  opacity: 0.2;
+  background: linear-gradient(145deg, #1a1a1a, #262626);
+  border: 1px solid rgba(160, 160, 160, 0.2);
+  box-shadow:
+    0 0 18px rgba(160, 160, 160, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.tracker-card--grey:active {
+  box-shadow:
+    0 0 30px rgba(200, 200, 200, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.tracker-card--grey .tracker-label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tracker-card--grey .tracker-hint {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ── Left column (label + hint) ─────────────────────────────────── */
+
+.tracker-card__left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Right column (value) ────────────────────────────────────────── */
+
+.tracker-card__right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+/* ── Label ──────────────────────────────────────────────────────── */
+
+.tracker-label {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tracker-card--large .tracker-label {
+  font-size: 1.2rem;
+  letter-spacing: 0.14em;
+}
+
+/* ── Value ──────────────────────────────────────────────────────── */
+
+.tracker-value {
+  font-size: clamp(54px, 12vw, 68px);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  animation: valuePop 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tracker-card--large .tracker-value {
+  font-size: clamp(76px, 18vw, 100px);
+}
+
+@keyframes valuePop {
+  0% {
+    transform: scale(1.4);
+    color: #6fffaa;
+    text-shadow: 0 0 20px rgba(100, 255, 150, 0.8);
+  }
+  100% {
+    transform: scale(1);
+    color: #ffffff;
+    text-shadow: none;
+  }
+}
+
+/* ── Swipe hint ─────────────────────────────────────────────────── */
+
+.tracker-hint {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: rgba(120, 200, 150, 0.4);
+  text-transform: uppercase;
+}
+
+/* ── Feedback overlay (+1 / -1) ─────────────────────────────────── */
+
+.tracker-feedback {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-weight: 900;
+  pointer-events: none;
+  z-index: 10;
+  animation: feedbackFloat 0.65s ease-out forwards;
+}
+
+.tracker-feedback--plus {
+  color: #4cff82;
+  text-shadow: 0 0 16px rgba(76, 255, 130, 0.9);
+}
+
+.tracker-feedback--minus {
+  color: #ff6b6b;
+  text-shadow: 0 0 16px rgba(255, 107, 107, 0.9);
+}
+
+@keyframes feedbackFloat {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.8);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -140%) scale(1);
+  }
+}

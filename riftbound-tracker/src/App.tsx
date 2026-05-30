@@ -107,7 +107,8 @@ function App() {
         onResetTracker={resetTracker}
         onOpenHelp={() => setHelpOpen(true)}
         onBoardReset={resetAll}
-        onUndo={history.length > 0 ? undo : undefined}
+        onUndo={undo}
+        canUndo={history.length > 0}
         playerCount={playerCount}
       />
       {helpOpen && <HelpOverlay onClose={() => setHelpOpen(false)} playerCount={playerCount} onSetPlayerCount={setPlayerCount} history={history} onClearHistory={() => setHistory([])} />}

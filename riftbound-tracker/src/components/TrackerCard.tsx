@@ -18,6 +18,7 @@ export interface TrackerCardProps {
   onAddPlayer?: () => void;
   onBoardReset?: () => void;
   onUndo?: () => void;
+  canUndo?: boolean;
   flipped?: boolean;
 }
 
@@ -38,12 +39,37 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
   onAddPlayer,
   onBoardReset,
   onUndo,
+  canUndo = false,
   flipped = false,
 }) => {
   const [feedback, setFeedback] = useState<FeedbackType>(null);
+  const [flash, setFlash] = useState<string | null>(null);
+  const [flashKey, setFlashKey] = useState(0);
+  const [flashSub, setFlashSub] = useState<string | null>(null);
+  const [flashSubKey, setFlashSubKey] = useState(0);
+  const flashTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const flashSubTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const flashSubSchedulerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastTapTimeRef = useRef<number>(0);
   const feedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const wasSwipingRef = useRef(false);
+
+  const showFlash = (text: string, subtext?: string) => {
+    if (flashTimerRef.current) clearTimeout(flashTimerRef.current);
+    if (flashSubTimerRef.current) clearTimeout(flashSubTimerRef.current);
+    if (flashSubSchedulerRef.current) clearTimeout(flashSubSchedulerRef.current);
+    setFlash(text);
+    setFlashKey(k => k + 1);
+    setFlashSub(null);
+    flashTimerRef.current = setTimeout(() => setFlash(null), 1100);
+    if (subtext) {
+      flashSubSchedulerRef.current = setTimeout(() => {
+        setFlashSub(subtext);
+        setFlashSubKey(k => k + 1);
+        flashSubTimerRef.current = setTimeout(() => setFlashSub(null), 900);
+      }, 380);
+    }
+  };
 
   const triggerFeedback = (type: '+1' | '-1') => {
     if (feedbackTimerRef.current !== null) clearTimeout(feedbackTimerRef.current);
@@ -125,17 +151,18 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
       className={cardClass}
       onClick={handleTap}
       tabIndex={0}
+      role="group"
       onKeyDown={(e) => {
         if (e.key === 'ArrowUp' || e.key === '+') handleIncrement();
         if (e.key === 'ArrowDown' || e.key === '-') handleDecrement();
         if (e.key === 'Enter' || e.key === ' ') handleTap();
       }}
-      aria-label={`${label}: ${value}. Swipe up to add, swipe down to subtract, double-tap to reset.`}
+      aria-label={`${label}: ${value}. Arrow up/+ to add, arrow down/− to subtract, double-tap or Enter to reset.`}
     >
       {onHelp && (
         <button
           className="tracker-card__help-btn"
-          onClick={(e) => { e.stopPropagation(); onHelp(); }}
+          onClick={(e) => { e.stopPropagation(); showFlash('Menu'); onHelp(); }}
           aria-label="Show help"
           type="button"
         >
@@ -145,7 +172,7 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
       {onBoardReset && (
         <button
           className="tracker-card__board-reset-btn"
-          onClick={(e) => { e.stopPropagation(); onBoardReset(); }}
+          onClick={(e) => { e.stopPropagation(); showFlash('Reset all', 'Undo?'); onBoardReset(); }}
           aria-label="Reset all trackers"
           type="button"
         >
@@ -155,12 +182,29 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
       {onUndo && (
         <button
           className="tracker-card__undo-btn"
-          onClick={(e) => { e.stopPropagation(); onUndo(); }}
+          onClick={(e) => { e.stopPropagation(); if (canUndo) { showFlash('Undo'); onUndo(); } else { showFlash('Nothing to undo'); } }}
           aria-label="Undo last action"
           type="button"
+          disabled={!canUndo}
         >
           ↶
         </button>
+      )}
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        className="tracker-card__sr-flash"
+      >
+        {flash ?? ''}
+      </div>
+      {(flash || flashSub) && (
+        <div aria-hidden="true" className="tracker-card__screen-flash">
+          {flash && <span className="tracker-card__screen-flash-label" key={flashKey}>{flash}</span>}
+          {flashSub && <span className="tracker-card__screen-flash-sublabel" key={flashSubKey}>{flashSub}</span>}
+        </div>
+      )}
+      {flashSub && (
+        <div className="tracker-card__undo-arrow" key={`a${flashSubKey}`} />
       )}
       {onAddPlayer && (
         <button
@@ -179,7 +223,7 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
           aria-label={collapsed ? `Expand ${label}` : `Collapse ${label}`}
           type="button"
         >
-          {collapsed ? '▶' : '▼'}
+          <span style={{ display: 'inline-block', transform: collapsed ? 'rotate(-90deg)' : undefined }}>▼</span>
         </button>
       )}
       {!collapsed && (
@@ -201,8 +245,16 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
         <span className="tracker-label tracker-label--collapsed">{label}</span>
       )}
 
+      <span
+        aria-live="polite"
+        aria-atomic="true"
+        className="tracker-card__sr-feedback"
+      >
+        {feedback !== null ? `${label} ${feedback === '+1' ? 'increased to' : 'decreased to'} ${value}` : ''}
+      </span>
       {feedback !== null && (
         <span
+          aria-hidden="true"
           className={`tracker-feedback tracker-feedback--${feedback === '+1' ? 'plus' : 'minus'}`}
         >
           {feedback}

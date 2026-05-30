@@ -79,24 +79,26 @@ const Half: React.FC<HalfProps> = ({
       className={`split-half${flipped ? ' split-half--flipped' : ''}`}
       onClick={handleTap}
       tabIndex={0}
+      role="group"
       onKeyDown={(e) => {
         if (e.key === 'ArrowUp' || e.key === '+') handleIncrement();
         if (e.key === 'ArrowDown' || e.key === '-') handleDecrement();
       }}
-      aria-label={`Points: ${value}. Swipe up to add, swipe down to subtract, double-tap to reset.`}
+      aria-label={`Points: ${value}. Arrow up/+ to add, arrow down/− to subtract, double-tap to reset.`}
     >
+      <input
+        className="split-half__name-input"
+        value={playerName}
+        onChange={(e) => setPlayerName(e.target.value)}
+        onClick={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+        placeholder="Name"
+        maxLength={20}
+        type="text"
+        aria-label="Player name"
+      />
       <div className="split-half__right">
         <div className="split-half__number-wrap">
-          <input
-            className="split-half__name-input"
-            value={playerName}
-            onChange={(e) => setPlayerName(e.target.value)}
-            onClick={(e) => e.stopPropagation()}
-            onTouchStart={(e) => e.stopPropagation()}
-            placeholder="Name"
-            maxLength={20}
-            type="text"
-          />
           <span key={value} className="tracker-value">{renderValue(value)}</span>
         </div>
       </div>
@@ -177,7 +179,7 @@ const PointsSplitCard: React.FC<PointsSplitCardProps> = ({
             </React.Fragment>
           );
         })}
-        <span className={`points-split-card__sideways-label${values.length >= 3 ? ' points-split-card__sideways-label--bottom' : ''}`}>Points</span>
+        <span className={`points-split-card__sideways-label${values.length >= 3 ? ' points-split-card__sideways-label--bottom' : ''}${(flippedStates[0] || (values.length === 4 && flippedStates[1])) ? ' points-split-card__sideways-label--faded' : ''}`}>Points</span>
       </>
     )}
   </div>

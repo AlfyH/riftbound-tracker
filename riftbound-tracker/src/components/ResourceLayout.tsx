@@ -11,6 +11,7 @@ interface ResourceLayoutProps {
   onOpenHelp: () => void;
   onBoardReset: () => void;
   onUndo?: () => void;
+  canUndo?: boolean;
   playerCount: number;
 }
 
@@ -34,6 +35,7 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
   onOpenHelp,
   onBoardReset,
   onUndo,
+  canUndo,
   playerCount,
 }) => {
   const [lastChanged, setLastChanged] = useState(() => new Date());
@@ -55,7 +57,12 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
 
   return (
     <div className="resource-layout">
-      <div className={`resource-layout__cards${playerCount > 1 ? ' resource-layout__cards--two-player' : ''}`}>
+      <div className="gesture-hints" aria-hidden="true">
+        <span>↑ swipe ↓</span>
+        <span className="gesture-hints__sep">·</span>
+        <span>×2 tap reset</span>
+      </div>
+      <div className={`resource-layout__cards${playerCount > 1 ? ' resource-layout__cards--two-player' : ''}${playerCount > 2 ? ' resource-layout__cards--multi-player' : ''}`}>
         {playerCount > 1 ? (
           <PointsSplitCard
             key={playerCount}
@@ -149,6 +156,7 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
           onHelp={onOpenHelp}
           onBoardReset={onBoardReset}
           onUndo={onUndo}
+          canUndo={canUndo}
         />
       </div>
     </div>

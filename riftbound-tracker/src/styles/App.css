@@ -1,3 +1,31 @@
+/* ── Gesture hint bar (top-right) ─────────────────────────────────── */
+
+.gesture-hints {
+  position: absolute;
+  top: 7px;
+  right: 14px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  user-select: none;
+  z-index: 10;
+}
+
+.gesture-hints span {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: rgba(120, 200, 150, 0.4);
+  text-transform: uppercase;
+}
+
+.gesture-hints__sep {
+  color: rgba(120, 200, 150, 0.25) !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0 !important;
+}
+
 /* ── App shell ──────────────────────────────────────────────────── */
 
 .app {
@@ -49,10 +77,10 @@
 .floating-group__collapse-btn {
   position: absolute;
   left: 0;
-  background: rgba(255, 100, 30, 0.1);
-  border: 1px solid rgba(255, 100, 30, 0.2);
+  background: transparent;
+  border: 1px solid rgba(255, 100, 30, 0.1);
   border-radius: 7px;
-  color: rgba(255, 140, 60, 0.7);
+  color: rgba(255, 140, 60, 0.25);
   font-size: 0.6rem;
   width: 26px;
   height: 26px;
@@ -73,7 +101,7 @@
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(255, 140, 60, 0.3);
+  color: rgba(255, 140, 60, 0.75);
 }
 
 .floating-group__row {
@@ -129,6 +157,7 @@
   flex: 1;
   min-height: 0;
   overflow: hidden;
+  position: relative;
 }
 
 /* ── Collapsible section header ────────────────────────────────── */
@@ -141,10 +170,10 @@
 }
 
 .resource-layout__collapse-btn {
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 8px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.18);
   font-size: 0.65rem;
   width: 28px;
   height: 28px;
@@ -242,11 +271,17 @@
   flex: 1;
   min-height: 0;
   gap: 8px;
-  padding: 10px 10px;
+  padding: 28px 10px 10px;
   padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
   overflow: hidden;
   background-image:
     radial-gradient(ellipse at 50% 0%, rgba(0, 120, 150, 0.08) 0%, transparent 60%),
     radial-gradient(ellipse at 50% 100%, rgba(0, 60, 100, 0.06) 0%, transparent 60%);
+}
+
+/* Give XP more height in 1-player and 2-player mode */
+.resource-layout__cards:not(.resource-layout__cards--multi-player)
+  .tracker-card:has(.tracker-card__collapse-btn):not(.tracker-card--large):not(.tracker-card--collapsed) {
+  flex: 1.6;
 }
 

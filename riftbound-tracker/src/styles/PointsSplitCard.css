@@ -66,7 +66,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  line-height: 0.85;
+  line-height: 1;
 }
 
 .split-half__number-wrap {
@@ -86,7 +86,7 @@
   border-radius: 50%;
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.12);
   font-size: 1rem;
   display: flex;
   align-items: center;
@@ -97,17 +97,22 @@
   pointer-events: all;
 }
 
-.split-half__flip-btn:active {
-  color: rgba(255, 255, 255, 0.8);
+.split-half--flipped .split-half__flip-btn {
+  bottom: auto;
+  top: 6px;
+  right: auto;
+  left: 52px;
+  transform: rotate(-180deg);
 }
 
-/* ── Name input (inline beside number) ──────────────────────────── */
+/* ── Name input (anchored to split-half, not number-wrap) ───────── */
 
 .split-half__name-input {
   position: absolute;
-  right: 100%;
-  margin-right: 12px;
-  width: 200px;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  width: calc(50% - 16px);
   background: transparent;
   border: none;
   color: #ffffff;
@@ -115,10 +120,9 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  text-align: right;
+  text-align: left;
   padding: 2px 4px;
   outline: none;
-  flex-shrink: 0;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -135,6 +139,7 @@
   font-size: clamp(96px, 24vw, 140px);
   font-family: 'Oswald', sans-serif;
   font-weight: 700;
+  padding-bottom: 0.08em;
 }
 
 .points-split-card--four-player .split-half .tracker-value {
@@ -158,6 +163,8 @@
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.95);
   pointer-events: none;
+  opacity: 0.12;
+  transition: opacity 0.4s ease;
 }
 
 .points-split-card__sideways-label--bottom {
@@ -166,4 +173,8 @@
   height: auto;
   align-items: flex-end;
   justify-content: flex-end;
+}
+
+.points-split-card__sideways-label--faded {
+  opacity: 0.03;
 }

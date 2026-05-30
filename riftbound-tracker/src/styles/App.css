@@ -25,7 +25,8 @@
   min-height: 0;
   gap: 8px;
   padding: 10px 10px;
-  /* Add bottom safe-area padding for devices with home indicator */
+  /* Respect iPhone notch / status bar and home indicator */
+  padding-top: calc(10px + env(safe-area-inset-top, 0px));
   padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
   overflow: hidden;
 }

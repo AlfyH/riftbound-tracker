@@ -18,8 +18,10 @@ export interface GameState {
 export interface ActionEntry {
   action: '+1' | '-1' | 'reset';
   label: string;
+  gameKey: keyof GameState | 'all';
   from: number;
   value: number;
+  prevSnapshot?: GameState;
   time: Date;
 }
 
@@ -54,7 +56,20 @@ function App() {
   const [history, setHistory] = useState<ActionEntry[]>([]);
 
   const pushHistory = (action: ActionEntry['action'], key: keyof GameState, prevValue: number, newValue: number) => {
-    setHistory(prev => [{ action, label: TRACKER_LABELS[key], from: prevValue, value: newValue, time: new Date() }, ...prev].slice(0, 100));
+    setHistory(prev => [{ action, label: TRACKER_LABELS[key], gameKey: key, from: prevValue, value: newValue, time: new Date() }, ...prev].slice(0, 100));
+  };
+
+  const undo = () => {
+    setHistory(prev => {
+      const [last, ...rest] = prev;
+      if (!last) return prev;
+      if (last.gameKey === 'all' && last.prevSnapshot) {
+        setState(last.prevSnapshot);
+      } else if (last.gameKey !== 'all') {
+        setState(s => ({ ...DEFAULT_STATE, ...s, [last.gameKey]: last.from }));
+      }
+      return rest;
+    });
   };
 
   const increment = (key: keyof GameState) => {
@@ -78,6 +93,11 @@ function App() {
     }
   };
 
+  const resetAll = () => {
+    setHistory(prev => [{ action: 'reset', label: 'All Trackers', gameKey: 'all', from: 0, value: 0, prevSnapshot: mergedState, time: new Date() }, ...prev].slice(0, 100));
+    setState(DEFAULT_STATE);
+  };
+
   return (
     <div className="app">
       <ResourceLayout
@@ -86,6 +106,8 @@ function App() {
         onDecrement={decrement}
         onResetTracker={resetTracker}
         onOpenHelp={() => setHelpOpen(true)}
+        onBoardReset={resetAll}
+        onUndo={history.length > 0 ? undo : undefined}
         playerCount={playerCount}
       />
       {helpOpen && <HelpOverlay onClose={() => setHelpOpen(false)} playerCount={playerCount} onSetPlayerCount={setPlayerCount} history={history} onClearHistory={() => setHistory([])} />}

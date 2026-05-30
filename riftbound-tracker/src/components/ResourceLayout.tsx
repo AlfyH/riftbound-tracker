@@ -9,6 +9,8 @@ interface ResourceLayoutProps {
   onDecrement: (key: keyof GameState) => void;
   onResetTracker: (key: keyof GameState) => void;
   onOpenHelp: () => void;
+  onBoardReset: () => void;
+  onUndo?: () => void;
   playerCount: number;
 }
 
@@ -30,6 +32,8 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
   onDecrement,
   onResetTracker,
   onOpenHelp,
+  onBoardReset,
+  onUndo,
   playerCount,
 }) => {
   const [lastChanged, setLastChanged] = useState(() => new Date());
@@ -143,6 +147,8 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
           collapsed={xpCollapsed}
           onToggleCollapse={() => setXpCollapsed((v) => !v)}
           onHelp={onOpenHelp}
+          onBoardReset={onBoardReset}
+          onUndo={onUndo}
         />
       </div>
     </div>

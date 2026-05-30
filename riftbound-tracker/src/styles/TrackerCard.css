@@ -58,7 +58,53 @@
   touch-action: manipulation;
 }
 
-.tracker-card__help-btn:active {
+.tracker-card__board-reset-btn {
+  position: absolute;
+  bottom: 8px;
+  right: 46px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.8;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.tracker-card__board-reset-btn:active {
+  opacity: 1;
+}
+
+.tracker-card__undo-btn {
+  position: absolute;
+  bottom: 8px;
+  right: 82px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.8;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.tracker-card__undo-btn:active {
   opacity: 1;
 }
 

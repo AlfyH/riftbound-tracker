@@ -16,6 +16,8 @@ export interface TrackerCardProps {
   onToggleCollapse?: () => void;
   onHelp?: () => void;
   onAddPlayer?: () => void;
+  onBoardReset?: () => void;
+  onUndo?: () => void;
   flipped?: boolean;
 }
 
@@ -34,6 +36,8 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
   onToggleCollapse,
   onHelp,
   onAddPlayer,
+  onBoardReset,
+  onUndo,
   flipped = false,
 }) => {
   const [feedback, setFeedback] = useState<FeedbackType>(null);
@@ -136,6 +140,26 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
           type="button"
         >
           ☰
+        </button>
+      )}
+      {onBoardReset && (
+        <button
+          className="tracker-card__board-reset-btn"
+          onClick={(e) => { e.stopPropagation(); onBoardReset(); }}
+          aria-label="Reset all trackers"
+          type="button"
+        >
+          ↺
+        </button>
+      )}
+      {onUndo && (
+        <button
+          className="tracker-card__undo-btn"
+          onClick={(e) => { e.stopPropagation(); onUndo(); }}
+          aria-label="Undo last action"
+          type="button"
+        >
+          ↶
         </button>
       )}
       {onAddPlayer && (

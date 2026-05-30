@@ -65,6 +65,9 @@ const HelpOverlay: React.FC<HelpOverlayProps> = ({ onClose, playerCount, onSetPl
         <div className="help-overlay__credit">
           Made by Alfy Hushairi &middot; <a href="https://anadillo.co.uk" target="_blank" rel="noopener noreferrer">anadillo.co.uk</a>
         </div>
+        <div className="help-overlay__credit">
+          <a href="https://piltoverarchive.com/decks/view/9f77003d-640e-4ed9-8fa3-a5b3ef91315e" target="_blank" rel="noopener noreferrer">My Deck List</a>
+        </div>
       </div>
     </dialog>
   );

@@ -3,9 +3,12 @@
 .app {
   display: flex;
   flex-direction: column;
-  height: 100dvh; /* dynamic viewport height – accounts for mobile browser chrome */
+  height: 100dvh;
   background: #060f08;
   overflow: hidden;
+  /* Push content below the iPhone status bar when run as a webapp */
+  padding-top: env(safe-area-inset-top, 0px);
+  box-sizing: border-box;
 }
 
 /* ── Resource layout ────────────────────────────────────────────── */
@@ -25,8 +28,6 @@
   min-height: 0;
   gap: 8px;
   padding: 10px 10px;
-  /* Respect iPhone notch / status bar and home indicator */
-  padding-top: calc(10px + env(safe-area-inset-top, 0px));
   padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
   overflow: hidden;
 }

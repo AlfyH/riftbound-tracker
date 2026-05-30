@@ -73,16 +73,6 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
           onToggleCollapse={() => setXpCollapsed((v) => !v)}
         />
         <TrackerCard
-          label="Floating Energy"
-          value={state.energy}
-          onIncrement={() => onIncrement('energy')}
-          onDecrement={() => onDecrement('energy')}
-          onReset={() => onResetTracker('energy')}
-          accent="orange"
-          collapsed={energyCollapsed}
-          onToggleCollapse={() => setEnergyCollapsed((v) => !v)}
-        />
-        <TrackerCard
           label="Floating Power"
           value={state.power}
           onIncrement={() => onIncrement('power')}
@@ -91,6 +81,16 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
           accent="red"
           collapsed={powerCollapsed}
           onToggleCollapse={() => setPowerCollapsed((v) => !v)}
+        />
+        <TrackerCard
+          label="Floating Energy"
+          value={state.energy}
+          onIncrement={() => onIncrement('energy')}
+          onDecrement={() => onDecrement('energy')}
+          onReset={() => onResetTracker('energy')}
+          accent="orange"
+          collapsed={energyCollapsed}
+          onToggleCollapse={() => setEnergyCollapsed((v) => !v)}
         />
         <div className="resource-layout__row">
           <DisplayCard

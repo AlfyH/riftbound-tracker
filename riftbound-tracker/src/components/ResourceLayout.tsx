@@ -32,6 +32,7 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
 }) => {
   const [lastChanged, setLastChanged] = useState(() => new Date());
   const [, setTick] = useState(0);
+  const [pointsCollapsed, setPointsCollapsed] = useState(false);
   const [xpCollapsed, setXpCollapsed] = useState(false);
   const [floatingCollapsed, setFloatingCollapsed] = useState(false);
 
@@ -59,6 +60,8 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
           size="large"
           subtitle={`Updated ${timeAgo(lastChanged)}`}
           onHelp={onOpenHelp}
+          collapsed={pointsCollapsed}
+          onToggleCollapse={() => setPointsCollapsed((v) => !v)}
         />
 
         <div className={`floating-group${floatingCollapsed ? ' floating-group--collapsed' : ''}`}>

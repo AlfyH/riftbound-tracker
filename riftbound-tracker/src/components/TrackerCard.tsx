@@ -10,6 +10,7 @@ export interface TrackerCardProps {
   onReset: () => void;
   size?: 'large' | 'normal';
   accent?: 'red' | 'orange' | 'yellow' | 'grey';
+  subtitle?: string;
 }
 
 type FeedbackType = '+1' | '-1' | null;
@@ -22,6 +23,7 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
   onReset,
   size = 'normal',
   accent,
+  subtitle,
 }) => {
   const [feedback, setFeedback] = useState<FeedbackType>(null);
   const lastTapTimeRef = useRef<number>(0);
@@ -114,6 +116,7 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
     >
       <div className="tracker-card__left">
         <span className="tracker-label">{label}</span>
+        {subtitle && <span className="tracker-subtitle">{subtitle}</span>}
         <span className="tracker-hint">↑ swipe ↓</span>
       </div>
       <div className="tracker-card__right">

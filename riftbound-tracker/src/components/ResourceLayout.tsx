@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TrackerCard from './TrackerCard';
 import type { GameState } from '../App';
 
@@ -9,12 +9,37 @@ interface ResourceLayoutProps {
   onResetTracker: (key: keyof GameState) => void;
 }
 
+function timeAgo(date: Date): string {
+  const secs = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (secs < 5) return 'just now';
+  if (secs < 60) return `${secs} seconds ago`;
+  const mins = Math.floor(secs / 60);
+  if (mins < 60) return mins === 1 ? '1 minute ago' : `${mins} minutes ago`;
+  const hrs = Math.floor(mins / 60);
+  return hrs === 1 ? '1 hour ago' : `${hrs} hours ago`;
+}
+
 const ResourceLayout: React.FC<ResourceLayoutProps> = ({
   state,
   onIncrement,
   onDecrement,
   onResetTracker,
 }) => {
+  const [lastChanged, setLastChanged] = useState(() => new Date());
+  const [, setTick] = useState(0);
+
+  // Record when points value changes
+  const prevPointsRef = React.useRef(state.points);
+  if (prevPointsRef.current !== state.points) {
+    prevPointsRef.current = state.points;
+    setLastChanged(new Date());
+  }
+
+  useEffect(() => {
+    const id = setInterval(() => setTick((t) => t + 1), 5000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <div className="resource-layout">
       <div className="resource-layout__cards">
@@ -25,6 +50,7 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
           onDecrement={() => onDecrement('points')}
           onReset={() => onResetTracker('points')}
           size="large"
+          subtitle={`Updated ${timeAgo(lastChanged)}`}
         />
         <TrackerCard
           label="XP"

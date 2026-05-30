@@ -173,25 +173,35 @@
 /* ── Label ──────────────────────────────────────────────────────── */
 
 .tracker-label {
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: 1.3rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .tracker-card--large .tracker-label {
-  font-size: 1.2rem;
-  letter-spacing: 0.14em;
+  font-size: 1.6rem;
+  letter-spacing: 0.1em;
+}
+
+/* ── Subtitle (e.g. timestamp) ──────────────────────────────────── */
+
+.tracker-subtitle {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: none;
 }
 
 /* ── Value ──────────────────────────────────────────────────────── */
 
 .tracker-value {
-  font-size: clamp(54px, 12vw, 68px);
+  font-size: clamp(60px, 14vw, 76px);
   font-weight: 900;
   color: #ffffff;
   line-height: 1;
@@ -201,7 +211,7 @@
 }
 
 .tracker-card--large .tracker-value {
-  font-size: clamp(76px, 18vw, 100px);
+  font-size: clamp(90px, 20vw, 116px);
 }
 
 @keyframes valuePop {

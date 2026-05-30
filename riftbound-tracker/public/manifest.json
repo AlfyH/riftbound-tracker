@@ -1,0 +1,9 @@
+{
+  "name": "Riftbound Tracker",
+  "short_name": "Riftbound",
+  "start_url": "/riftbound-tracker/",
+  "display": "standalone",
+  "background_color": "#04080f",
+  "theme_color": "#04080f",
+  "orientation": "portrait"
+}

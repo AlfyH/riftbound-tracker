@@ -14,11 +14,13 @@ interface ResourceLayoutProps {
 function timeAgo(date: Date): string {
   const secs = Math.floor((Date.now() - date.getTime()) / 1000);
   if (secs < 5) return 'just now';
-  if (secs < 60) return `${secs} seconds ago`;
+  if (secs < 60) return `${secs}s ago`;
   const mins = Math.floor(secs / 60);
-  if (mins < 60) return mins === 1 ? '1 minute ago' : `${mins} minutes ago`;
+  const remSecs = secs % 60;
+  if (mins < 60) return remSecs > 0 ? `${mins}m ${remSecs}s ago` : `${mins}m ago`;
   const hrs = Math.floor(mins / 60);
-  return hrs === 1 ? '1 hour ago' : `${hrs} hours ago`;
+  const remMins = mins % 60;
+  return remMins > 0 ? `${hrs}h ${remMins}m ago` : `${hrs}h ago`;
 }
 
 const ResourceLayout: React.FC<ResourceLayoutProps> = ({

@@ -15,6 +15,25 @@ export interface GameState {
   runes: number;
 }
 
+export interface ActionEntry {
+  action: '+1' | '-1' | 'reset';
+  label: string;
+  from: number;
+  value: number;
+  time: Date;
+}
+
+const TRACKER_LABELS: Record<keyof GameState, string> = {
+  points: 'Points',
+  points2: 'P2 Points',
+  points3: 'P3 Points',
+  points4: 'P4 Points',
+  xp: 'XP',
+  energy: 'Energy',
+  power: 'Power',
+  runes: 'Runes',
+};
+
 const DEFAULT_STATE: GameState = {
   points: 0,
   points2: 0,
@@ -32,18 +51,30 @@ function App() {
   const mergedState: GameState = { ...DEFAULT_STATE, ...state };
   const [helpOpen, setHelpOpen] = useState(false);
   const [playerCount, setPlayerCount] = useState(1);
+  const [history, setHistory] = useState<ActionEntry[]>([]);
+
+  const pushHistory = (action: ActionEntry['action'], key: keyof GameState, prevValue: number, newValue: number) => {
+    setHistory(prev => [{ action, label: TRACKER_LABELS[key], from: prevValue, value: newValue, time: new Date() }, ...prev].slice(0, 100));
+  };
 
   const increment = (key: keyof GameState) => {
-    setState({ ...mergedState, [key]: mergedState[key] + 1 });
+    const newVal = mergedState[key] + 1;
+    setState({ ...mergedState, [key]: newVal });
+    pushHistory('+1', key, mergedState[key], newVal);
   };
 
   const decrement = (key: keyof GameState) => {
-    setState({ ...mergedState, [key]: Math.max(0, mergedState[key] - 1) });
+    const newVal = Math.max(0, mergedState[key] - 1);
+    if (mergedState[key] !== newVal) {
+      setState({ ...mergedState, [key]: newVal });
+      pushHistory('-1', key, mergedState[key], newVal);
+    }
   };
 
   const resetTracker = (key: keyof GameState) => {
     if (mergedState[key] !== 0) {
       setState({ ...mergedState, [key]: 0 });
+      pushHistory('reset', key, mergedState[key], 0);
     }
   };
 
@@ -57,7 +88,7 @@ function App() {
         onOpenHelp={() => setHelpOpen(true)}
         playerCount={playerCount}
       />
-      {helpOpen && <HelpOverlay onClose={() => setHelpOpen(false)} playerCount={playerCount} onSetPlayerCount={setPlayerCount} />}
+      {helpOpen && <HelpOverlay onClose={() => setHelpOpen(false)} playerCount={playerCount} onSetPlayerCount={setPlayerCount} history={history} onClearHistory={() => setHistory([])} />}
     </div>
   );
 }

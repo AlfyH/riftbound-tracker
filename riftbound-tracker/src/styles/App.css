@@ -69,6 +69,21 @@
 
 .resource-layout__row .tracker-card {
   flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.resource-layout__row .tracker-card .tracker-card__left {
+  flex: 0 0 auto;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+}
+
+.resource-layout__row .tracker-card .tracker-card__right {
+  justify-content: center;
 }
 
 .resource-layout__row .tracker-label {
@@ -76,6 +91,10 @@
   letter-spacing: 0.04em;
   white-space: normal;
   line-height: 1.2;
+}
+
+.resource-layout__row .tracker-value {
+  font-size: clamp(32px, 8vw, 44px);
 }
 
 /* ── Display-only card ───────────────────────────────────────────── */

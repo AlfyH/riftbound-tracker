@@ -21,6 +21,51 @@
   overflow: hidden;
 }
 
+.resource-layout__row {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  flex: 1;
+  min-height: 0;
+}
+
+.resource-layout__row .tracker-card {
+  flex: 1;
+}
+
+.resource-layout__row .tracker-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  white-space: normal;
+  line-height: 1.2;
+}
+
+/* ── Display-only card ───────────────────────────────────────────── */
+
+.tracker-card--display {
+  background: linear-gradient(145deg, #0d1f2d, #122840);
+  border: 1px solid rgba(80, 160, 220, 0.2);
+  box-shadow:
+    0 0 18px rgba(80, 160, 220, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  cursor: default;
+  touch-action: auto;
+}
+
+.tracker-card--display .tracker-label {
+  color: rgba(140, 200, 255, 0.9);
+}
+
+.tracker-card--display .tracker-hint {
+  color: rgba(100, 160, 220, 0.4);
+  font-style: italic;
+  letter-spacing: 0.04em;
+}
+
+.tracker-card--display .tracker-value {
+  color: rgba(180, 220, 255, 0.95);
+}
+
 .resource-layout__cards {
   display: flex;
   flex-direction: column;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TrackerCard from './TrackerCard';
+import DisplayCard from './DisplayCard';
 import type { GameState } from '../App';
 
 interface ResourceLayoutProps {
@@ -76,14 +77,20 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
           onReset={() => onResetTracker('power')}
           accent="red"
         />
-        <TrackerCard
-          label="Rune Count"
-          value={state.runes}
-          onIncrement={() => onIncrement('runes')}
-          onDecrement={() => onDecrement('runes')}
-          onReset={() => onResetTracker('runes')}
-          accent="grey"
-        />
+        <div className="resource-layout__row">
+          <TrackerCard
+            label="Rune Count"
+            value={state.runes}
+            onIncrement={() => onIncrement('runes')}
+            onDecrement={() => onDecrement('runes')}
+            onReset={() => onResetTracker('runes')}
+            accent="grey"
+          />
+          <DisplayCard
+            label="Available Energy"
+            value={state.energy + state.runes}
+          />
+        </div>
       </div>
     </div>
   );

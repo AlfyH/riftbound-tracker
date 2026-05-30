@@ -80,16 +80,18 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
 
   const swipeHandlers = useSwipeable({
     onSwipedUp: () => {
+      if (collapsed) return;
       wasSwipingRef.current = true;
       handleIncrement();
       setTimeout(() => { wasSwipingRef.current = false; }, 100);
     },
     onSwipedDown: () => {
+      if (collapsed) return;
       wasSwipingRef.current = true;
       handleDecrement();
       setTimeout(() => { wasSwipingRef.current = false; }, 100);
     },
-    preventScrollOnSwipe: true,
+    preventScrollOnSwipe: !collapsed,
     trackTouch: true,
     trackMouse: false,
     delta: 15,

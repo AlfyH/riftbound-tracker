@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   height: 100dvh;
-  background: #060f08;
+  background: #04080f;
   overflow: hidden;
   /* Push content below the iPhone status bar when run as a webapp */
   padding-top: env(safe-area-inset-top, 0px);
@@ -81,28 +81,28 @@
 /* ── Display-only card ───────────────────────────────────────────── */
 
 .tracker-card--display {
-  background: linear-gradient(145deg, #0d1f2d, #122840);
-  border: 1px solid rgba(80, 160, 220, 0.2);
+  background: linear-gradient(145deg, #071a1f, #0a2530);
+  border: 1px solid rgba(0, 180, 200, 0.25);
   box-shadow:
-    0 0 18px rgba(80, 160, 220, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 0 18px rgba(0, 180, 200, 0.12),
+    inset 0 1px 0 rgba(0, 220, 240, 0.06);
   cursor: default;
   touch-action: auto;
   opacity: 0.5;
 }
 
 .tracker-card--display .tracker-label {
-  color: rgba(140, 200, 255, 0.9);
+  color: rgba(0, 220, 240, 0.85);
 }
 
 .tracker-card--display .tracker-hint {
-  color: rgba(100, 160, 220, 0.4);
+  color: rgba(0, 180, 200, 0.4);
   font-style: italic;
   letter-spacing: 0.04em;
 }
 
 .tracker-card--display .tracker-value {
-  color: rgba(180, 220, 255, 0.95);
+  color: rgba(0, 230, 250, 0.95);
 }
 
 .resource-layout__cards {
@@ -114,4 +114,7 @@
   padding: 10px 10px;
   padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
   overflow: hidden;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(0, 120, 150, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(0, 60, 100, 0.06) 0%, transparent 60%);
 }

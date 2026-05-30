@@ -8,7 +8,7 @@
   justify-content: space-between;
   gap: 12px;
 
-  background: linear-gradient(145deg, #0b2b1c, #0f3d24);
+  background: linear-gradient(145deg, #070e1c, #0b1528);
   border-radius: 20px;
   padding: 12px 20px 16px;
 
@@ -22,17 +22,17 @@
   -webkit-tap-highlight-color: transparent;
   overflow: hidden;
 
-  border: 1px solid rgba(0, 200, 80, 0.12);
+  border: 1px solid rgba(0, 160, 180, 0.15);
   box-shadow:
-    0 0 18px rgba(0, 200, 80, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 0 18px rgba(0, 140, 170, 0.1),
+    inset 0 1px 0 rgba(0, 200, 220, 0.04);
   transition: box-shadow 0.2s ease;
 }
 
 .tracker-card:active {
   box-shadow:
-    0 0 30px rgba(0, 255, 100, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 0 30px rgba(0, 210, 230, 0.3),
+    inset 0 1px 0 rgba(0, 220, 240, 0.1);
 }
 
 /* ── Help button (inside Points card) ───────────────────────────── */
@@ -72,11 +72,11 @@
   gap: 0;
   padding: 16px 20px;
   border-radius: 24px;
-  background: linear-gradient(145deg, #0b3020, #114530);
-  border: 1px solid rgba(0, 220, 90, 0.2);
+  background: linear-gradient(145deg, #071c1e, #0a2628);
+  border: 1px solid rgba(0, 190, 200, 0.3);
   box-shadow:
-    0 0 30px rgba(0, 220, 80, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    0 0 30px rgba(0, 180, 190, 0.2),
+    inset 0 1px 0 rgba(0, 220, 230, 0.08);
 }
 
 .tracker-card--large .tracker-card__left {
@@ -97,24 +97,24 @@
 
 .tracker-card--large:active {
   box-shadow:
-    0 0 45px rgba(0, 255, 110, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    0 0 45px rgba(0, 220, 235, 0.4),
+    inset 0 1px 0 rgba(0, 235, 245, 0.12);
 }
 
 /* ── Red accent variant (Floating Power) ────────────────────────── */
 
 .tracker-card--red {
-  background: linear-gradient(145deg, #2b0b0b, #3d0f0f);
-  border: 1px solid rgba(200, 60, 60, 0.25);
+  background: linear-gradient(145deg, #1a0508, #26090d);
+  border: 1px solid rgba(180, 25, 45, 0.35);
   box-shadow:
-    0 0 18px rgba(200, 60, 60, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 0 18px rgba(160, 20, 40, 0.2),
+    inset 0 1px 0 rgba(255, 60, 80, 0.05);
 }
 
 .tracker-card--red:active {
   box-shadow:
-    0 0 30px rgba(255, 80, 80, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 0 30px rgba(200, 30, 55, 0.45),
+    inset 0 1px 0 rgba(255, 80, 100, 0.1);
 }
 
 .tracker-card--red .tracker-label {
@@ -128,17 +128,17 @@
 /* ── Orange accent variant (Floating Energy) ─────────────────────── */
 
 .tracker-card--orange {
-  background: linear-gradient(145deg, #2b1a0b, #3d2810);
-  border: 1px solid rgba(220, 120, 40, 0.25);
+  background: linear-gradient(145deg, #1a0e04, #261508);
+  border: 1px solid rgba(230, 130, 20, 0.3);
   box-shadow:
-    0 0 18px rgba(220, 120, 40, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 0 18px rgba(210, 110, 10, 0.2),
+    inset 0 1px 0 rgba(255, 160, 40, 0.06);
 }
 
 .tracker-card--orange:active {
   box-shadow:
-    0 0 30px rgba(255, 150, 50, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 0 30px rgba(240, 140, 20, 0.45),
+    inset 0 1px 0 rgba(255, 170, 50, 0.1);
 }
 
 .tracker-card--orange .tracker-label {
@@ -152,17 +152,17 @@
 /* ── Yellow accent variant (XP) ─────────────────────────────────── */
 
 .tracker-card--yellow {
-  background: linear-gradient(145deg, #2b2608, #3d360e);
-  border: 1px solid rgba(220, 200, 40, 0.25);
+  background: linear-gradient(145deg, #1c1600, #2a2000);
+  border: 1px solid rgba(240, 210, 0, 0.3);
   box-shadow:
-    0 0 18px rgba(220, 200, 40, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 0 18px rgba(220, 195, 0, 0.2),
+    inset 0 1px 0 rgba(255, 230, 20, 0.06);
 }
 
 .tracker-card--yellow:active {
   box-shadow:
-    0 0 30px rgba(255, 235, 60, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 0 30px rgba(255, 225, 10, 0.45),
+    inset 0 1px 0 rgba(255, 240, 40, 0.1);
 }
 
 .tracker-card--yellow .tracker-label {
@@ -177,17 +177,17 @@
 
 .tracker-card--grey {
   opacity: 0.5;
-  background: linear-gradient(145deg, #1a1a1a, #262626);
-  border: 1px solid rgba(160, 160, 160, 0.2);
+  background: linear-gradient(145deg, #090d16, #0d1220);
+  border: 1px solid rgba(80, 110, 160, 0.2);
   box-shadow:
-    0 0 18px rgba(160, 160, 160, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    0 0 18px rgba(60, 90, 140, 0.1),
+    inset 0 1px 0 rgba(100, 140, 200, 0.04);
 }
 
 .tracker-card--grey:active {
   box-shadow:
-    0 0 30px rgba(200, 200, 200, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    0 0 30px rgba(80, 120, 180, 0.25),
+    inset 0 1px 0 rgba(120, 160, 220, 0.08);
 }
 
 .tracker-card--grey .tracker-label {
@@ -310,8 +310,8 @@
 @keyframes valuePop {
   0% {
     transform: scale(1.4);
-    color: #6fffaa;
-    text-shadow: 0 0 20px rgba(100, 255, 150, 0.8);
+    color: #00e8f5;
+    text-shadow: 0 0 20px rgba(0, 220, 240, 0.9);
   }
   100% {
     transform: scale(1);

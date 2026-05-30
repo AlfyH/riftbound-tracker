@@ -8,6 +8,7 @@ interface ResourceLayoutProps {
   onIncrement: (key: keyof GameState) => void;
   onDecrement: (key: keyof GameState) => void;
   onResetTracker: (key: keyof GameState) => void;
+  onOpenHelp: () => void;
 }
 
 function timeAgo(date: Date): string {
@@ -25,6 +26,7 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
   onIncrement,
   onDecrement,
   onResetTracker,
+  onOpenHelp,
 }) => {
   const [lastChanged, setLastChanged] = useState(() => new Date());
   const [, setTick] = useState(0);
@@ -55,6 +57,7 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
           onReset={() => onResetTracker('points')}
           size="large"
           subtitle={`Updated ${timeAgo(lastChanged)}`}
+          onHelp={onOpenHelp}
         />
 
         <TrackerCard
@@ -88,6 +91,10 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
           onToggleCollapse={() => setPowerCollapsed((v) => !v)}
         />
         <div className="resource-layout__row">
+          <DisplayCard
+            label="Available Energy"
+            value={state.energy + state.runes}
+          />
           <TrackerCard
             label="Rune Count"
             value={state.runes}
@@ -95,10 +102,6 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
             onDecrement={() => onDecrement('runes')}
             onReset={() => onResetTracker('runes')}
             accent="grey"
-          />
-          <DisplayCard
-            label="Available Energy"
-            value={state.energy + state.runes}
           />
         </div>
       </div>

@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import ResourceLayout from './components/ResourceLayout';
+import HelpOverlay from './components/HelpOverlay';
 import usePersistentState from './hooks/usePersistentState';
 import './styles/App.css';
 
@@ -20,6 +22,7 @@ const DEFAULT_STATE: GameState = {
 
 function App() {
   const [state, setState] = usePersistentState<GameState>('riftbound-state', DEFAULT_STATE);
+  const [helpOpen, setHelpOpen] = useState(false);
 
   const increment = (key: keyof GameState) => {
     setState({ ...state, [key]: state[key] + 1 });
@@ -42,7 +45,9 @@ function App() {
         onIncrement={increment}
         onDecrement={decrement}
         onResetTracker={resetTracker}
+        onOpenHelp={() => setHelpOpen(true)}
       />
+      {helpOpen && <HelpOverlay onClose={() => setHelpOpen(false)} />}
     </div>
   );
 }

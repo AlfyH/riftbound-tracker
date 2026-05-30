@@ -11,7 +11,7 @@
   box-sizing: border-box;
 }
 
-/* ── Resource layout ────────────────────────────────────────────── */
+/* ── Resource layout ─────────────────────────────────────────────── */
 
 .resource-layout {
   display: flex;
@@ -88,6 +88,7 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
   cursor: default;
   touch-action: auto;
+  opacity: 0.5;
 }
 
 .tracker-card--display .tracker-label {

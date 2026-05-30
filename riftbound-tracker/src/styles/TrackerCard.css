@@ -35,16 +35,64 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
+/* ── Help button (inside Points card) ───────────────────────────── */
+
+.tracker-card__help-btn {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.5;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.tracker-card__help-btn:active {
+  opacity: 1;
+}
+
 /* ── Large variant (Points) ──────────────────────────────────────── */
 
 .tracker-card--large {
   flex: 2.2;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 16px 20px;
   border-radius: 24px;
   background: linear-gradient(145deg, #0b3020, #114530);
   border: 1px solid rgba(0, 220, 90, 0.2);
   box-shadow:
     0 0 30px rgba(0, 220, 80, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.tracker-card--large .tracker-card__left {
+  width: 100%;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+  flex: 0 0 auto;
+}
+
+.tracker-card--large .tracker-card__right {
+  width: 100%;
+  justify-content: center;
+  margin-top: 0;
+  padding-top: 0;
+  line-height: 0.85;
 }
 
 .tracker-card--large:active {
@@ -128,7 +176,7 @@
 /* ── Grey accent variant (Rune Count) ───────────────────────────── */
 
 .tracker-card--grey {
-  opacity: 0.4;
+  opacity: 0.5;
   background: linear-gradient(145deg, #1a1a1a, #262626);
   border: 1px solid rgba(160, 160, 160, 0.2);
   box-shadow:

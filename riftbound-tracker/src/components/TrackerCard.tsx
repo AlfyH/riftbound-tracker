@@ -13,6 +13,7 @@ export interface TrackerCardProps {
   subtitle?: string;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
+  onHelp?: () => void;
 }
 
 type FeedbackType = '+1' | '-1' | null;
@@ -28,6 +29,7 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
   subtitle,
   collapsed = false,
   onToggleCollapse,
+  onHelp,
 }) => {
   const [feedback, setFeedback] = useState<FeedbackType>(null);
   const lastTapTimeRef = useRef<number>(0);
@@ -119,6 +121,16 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
       }}
       aria-label={`${label}: ${value}. Swipe up to add, swipe down to subtract, double-tap to reset.`}
     >
+      {onHelp && (
+        <button
+          className="tracker-card__help-btn"
+          onClick={(e) => { e.stopPropagation(); onHelp(); }}
+          aria-label="Show help"
+          type="button"
+        >
+          ?
+        </button>
+      )}
       {onToggleCollapse && (
         <button
           className="tracker-card__collapse-btn"

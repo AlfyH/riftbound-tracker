@@ -133,6 +133,8 @@
 
 .split-half .tracker-value {
   font-size: clamp(96px, 24vw, 140px);
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
 }
 
 .points-split-card--four-player .split-half .tracker-value {

@@ -135,7 +135,7 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
           aria-label="Show help"
           type="button"
         >
-          ?
+          ☰
         </button>
       )}
       {onAddPlayer && (

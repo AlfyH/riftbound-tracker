@@ -21,6 +21,44 @@
   overflow: hidden;
 }
 
+/* ── Collapsible section header ────────────────────────────────── */
+
+.resource-layout__collapsible-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.resource-layout__collapse-btn {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.65rem;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease;
+}
+
+.resource-layout__collapse-btn:active {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.resource-layout__collapse-summary {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+}
+
 .resource-layout__row {
   display: flex;
   flex-direction: row;

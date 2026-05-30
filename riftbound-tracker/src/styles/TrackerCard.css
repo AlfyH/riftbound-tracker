@@ -188,7 +188,52 @@
   letter-spacing: 0.1em;
 }
 
-/* ── Subtitle (e.g. timestamp) ──────────────────────────────────── */
+/* Extra left padding when collapse button is present */
+.tracker-card:has(.tracker-card__collapse-btn):not(.tracker-card--collapsed) {
+  padding-left: 44px;
+}
+
+.tracker-card--collapsed {
+  flex: 0 0 44px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 12px 0 44px;
+  gap: 10px;
+}
+
+.tracker-card__collapse-btn {
+  position: absolute;
+  top: 7px;
+  left: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 7px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.6rem;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease;
+  z-index: 2;
+}
+
+.tracker-card__collapse-btn:active {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.tracker-label--collapsed {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* ── Subtitle (e.g. timestamp) ───────────────────────────────────── */
 
 .tracker-subtitle {
   font-size: 0.6rem;

@@ -11,6 +11,8 @@ export interface TrackerCardProps {
   size?: 'large' | 'normal';
   accent?: 'red' | 'orange' | 'yellow' | 'grey';
   subtitle?: string;
+  collapsed?: boolean;
+  onToggleCollapse?: () => void;
 }
 
 type FeedbackType = '+1' | '-1' | null;
@@ -24,6 +26,8 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
   size = 'normal',
   accent,
   subtitle,
+  collapsed = false,
+  onToggleCollapse,
 }) => {
   const [feedback, setFeedback] = useState<FeedbackType>(null);
   const lastTapTimeRef = useRef<number>(0);
@@ -96,6 +100,7 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
     accent === 'orange' ? 'tracker-card--orange' : '',
     accent === 'yellow' ? 'tracker-card--yellow' : '',
     accent === 'grey' ? 'tracker-card--grey' : '',
+    collapsed ? 'tracker-card--collapsed' : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -114,17 +119,33 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
       }}
       aria-label={`${label}: ${value}. Swipe up to add, swipe down to subtract, double-tap to reset.`}
     >
-      <div className="tracker-card__left">
-        <span className="tracker-label">{label}</span>
-        {subtitle && <span className="tracker-subtitle">{subtitle}</span>}
-        <span className="tracker-hint">↑ swipe ↓</span>
-      </div>
-      <div className="tracker-card__right">
-        {/* Changing `key` on value restarts the CSS pop animation on each update */}
-        <span key={value} className="tracker-value">
-          {value}
-        </span>
-      </div>
+      {onToggleCollapse && (
+        <button
+          className="tracker-card__collapse-btn"
+          onClick={(e) => { e.stopPropagation(); onToggleCollapse(); }}
+          aria-label={collapsed ? `Expand ${label}` : `Collapse ${label}`}
+          type="button"
+        >
+          {collapsed ? '▶' : '▼'}
+        </button>
+      )}
+      {!collapsed && (
+        <>
+          <div className="tracker-card__left">
+            <span className="tracker-label">{label}</span>
+            {subtitle && <span className="tracker-subtitle">{subtitle}</span>}
+            <span className="tracker-hint">↑ swipe ↓</span>
+          </div>
+          <div className="tracker-card__right">
+            <span key={value} className="tracker-value">
+              {value}
+            </span>
+          </div>
+        </>
+      )}
+      {collapsed && (
+        <span className="tracker-label tracker-label--collapsed">{label}</span>
+      )}
 
       {feedback !== null && (
         <span

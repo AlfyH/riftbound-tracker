@@ -28,6 +28,9 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
 }) => {
   const [lastChanged, setLastChanged] = useState(() => new Date());
   const [, setTick] = useState(0);
+  const [xpCollapsed, setXpCollapsed] = useState(false);
+  const [energyCollapsed, setEnergyCollapsed] = useState(false);
+  const [powerCollapsed, setPowerCollapsed] = useState(false);
 
   // Record when points value changes
   const prevPointsRef = React.useRef(state.points);
@@ -53,6 +56,7 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
           size="large"
           subtitle={`Updated ${timeAgo(lastChanged)}`}
         />
+
         <TrackerCard
           label="XP"
           value={state.xp}
@@ -60,6 +64,8 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
           onDecrement={() => onDecrement('xp')}
           onReset={() => onResetTracker('xp')}
           accent="yellow"
+          collapsed={xpCollapsed}
+          onToggleCollapse={() => setXpCollapsed((v) => !v)}
         />
         <TrackerCard
           label="Floating Energy"
@@ -68,6 +74,8 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
           onDecrement={() => onDecrement('energy')}
           onReset={() => onResetTracker('energy')}
           accent="orange"
+          collapsed={energyCollapsed}
+          onToggleCollapse={() => setEnergyCollapsed((v) => !v)}
         />
         <TrackerCard
           label="Floating Power"
@@ -76,6 +84,8 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
           onDecrement={() => onDecrement('power')}
           onReset={() => onResetTracker('power')}
           accent="red"
+          collapsed={powerCollapsed}
+          onToggleCollapse={() => setPowerCollapsed((v) => !v)}
         />
         <div className="resource-layout__row">
           <TrackerCard

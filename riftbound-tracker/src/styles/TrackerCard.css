@@ -232,13 +232,32 @@
 }
 
 .tracker-card--large .tracker-label {
-  font-size: 1.6rem;
   letter-spacing: 0.1em;
 }
 
-/* Extra left padding when collapse button is present */
-.tracker-card:has(.tracker-card__collapse-btn):not(.tracker-card--collapsed) {
-  padding-left: 44px;
+/* ── Column layout for collapsible non-large cards (XP) ─────────── */
+
+.tracker-card:has(.tracker-card__collapse-btn):not(.tracker-card--large):not(.tracker-card--collapsed) {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding-left: 20px;
+}
+
+.tracker-card:has(.tracker-card__collapse-btn):not(.tracker-card--large):not(.tracker-card--collapsed) .tracker-card__left {
+  flex: 0 0 auto;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+}
+
+.tracker-card:has(.tracker-card__collapse-btn):not(.tracker-card--large):not(.tracker-card--collapsed) .tracker-card__right {
+  justify-content: center;
+}
+
+.tracker-card:has(.tracker-card__collapse-btn):not(.tracker-card--large):not(.tracker-card--collapsed) .tracker-value {
+  font-size: clamp(36px, 9vw, 50px);
 }
 
 .tracker-card--collapsed {
@@ -246,14 +265,14 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  padding: 0 12px 0 44px;
+  padding: 0 12px 0 54px;
   gap: 10px;
 }
 
 .tracker-card__collapse-btn {
   position: absolute;
   top: 7px;
-  left: 8px;
+  left: 14px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 7px;

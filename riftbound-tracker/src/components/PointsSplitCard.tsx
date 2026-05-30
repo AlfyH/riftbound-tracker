@@ -11,12 +11,15 @@ interface HalfProps {
   onDecrement: () => void;
   onReset: () => void;
   flipped?: boolean;
+  onFlip?: () => void;
   subtitle?: string;
+  defaultName?: string;
 }
 
 const Half: React.FC<HalfProps> = ({
-  value, onIncrement, onDecrement, onReset, flipped, subtitle,
+  value, onIncrement, onDecrement, onReset, flipped, onFlip, subtitle, defaultName = '',
 }) => {
+  const [playerName, setPlayerName] = useState(defaultName);
   const [feedback, setFeedback] = useState<FeedbackType>(null);
   const lastTapRef = useRef(0);
   const wasSwipingRef = useRef(false);
@@ -78,12 +81,34 @@ const Half: React.FC<HalfProps> = ({
       }}
       aria-label={`Points: ${value}. Swipe up to add, swipe down to subtract, double-tap to reset.`}
     >
+      {onFlip && (
+        <input
+          className="split-half__name-input"
+          value={playerName}
+          onChange={(e) => setPlayerName(e.target.value)}
+          onClick={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+          placeholder="Player"
+          maxLength={12}
+          type="text"
+        />
+      )}
       <div className="split-half__right">
         <span key={value} className="tracker-value">{renderValue(value)}</span>
       </div>
       <div className="split-half__bottom-info">
         {subtitle && <span className="tracker-subtitle">{subtitle}</span>}
       </div>
+      {onFlip && (
+        <button
+          className="split-half__flip-btn"
+          onClick={(e) => { e.stopPropagation(); onFlip(); }}
+          type="button"
+          aria-label="Flip orientation"
+        >
+          ⇅
+        </button>
+      )}
       {feedback !== null && (
         <span className={`tracker-feedback tracker-feedback--${feedback === '+1' ? 'plus' : 'minus'}`}>
           {feedback}
@@ -94,27 +119,36 @@ const Half: React.FC<HalfProps> = ({
 };
 
 export interface PointsSplitCardProps {
-  p1Value: number;
-  p2Value: number;
-  onIncrementP1: () => void;
-  onDecrementP1: () => void;
-  onResetP1: () => void;
-  onIncrementP2: () => void;
-  onDecrementP2: () => void;
-  onResetP2: () => void;
-  subtitle: string;
-  subtitle2: string;
+  values: number[];
+  onIncrements: (() => void)[];
+  onDecrements: (() => void)[];
+  onResets: (() => void)[];
+  subtitles: string[];
   collapsed: boolean;
   onToggleCollapse: () => void;
 }
 
 const PointsSplitCard: React.FC<PointsSplitCardProps> = ({
-  p1Value, p2Value,
-  onIncrementP1, onDecrementP1, onResetP1,
-  onIncrementP2, onDecrementP2, onResetP2,
-  subtitle, subtitle2, collapsed, onToggleCollapse,
-}) => (
-  <div className={`tracker-card tracker-card--large points-split-card${collapsed ? ' tracker-card--collapsed' : ''}`}>
+  values, onIncrements, onDecrements, onResets, subtitles, collapsed, onToggleCollapse,
+}) => {
+  const defaultFlipped = values.map((_, i) => i >= Math.ceil(values.length / 2));
+  const [flippedStates, setFlippedStates] = useState<boolean[]>(defaultFlipped);
+
+  // Reset flip states when player count changes
+  const prevCountRef = React.useRef(values.length);
+  if (prevCountRef.current !== values.length) {
+    prevCountRef.current = values.length;
+    setFlippedStates(values.map((_, i) => i >= Math.ceil(values.length / 2)));
+  }
+
+  const toggleFlip = (idx: number) => {
+    setFlippedStates((prev) => prev.map((v, i) => i === idx ? !v : v));
+  };
+
+  const showFlipBtn = values.length >= 3;
+
+  return (
+  <div className={`tracker-card tracker-card--large points-split-card${collapsed ? ' tracker-card--collapsed' : ''}${values.length === 4 ? ' points-split-card--four-player' : ''}`}>
     <button
       className="tracker-card__collapse-btn"
       onClick={(e) => { e.stopPropagation(); onToggleCollapse(); }}
@@ -127,26 +161,29 @@ const PointsSplitCard: React.FC<PointsSplitCardProps> = ({
       <span className="tracker-label tracker-label--collapsed">Points</span>
     ) : (
       <>
-        <Half
-          value={p2Value}
-          onIncrement={onIncrementP2}
-          onDecrement={onDecrementP2}
-          onReset={onResetP2}
-          flipped
-          subtitle={subtitle2}
-        />
-        <div className="points-split-card__divider" />
-        <Half
-          value={p1Value}
-          onIncrement={onIncrementP1}
-          onDecrement={onDecrementP1}
-          onReset={onResetP1}
-          subtitle={subtitle}
-        />
-        <span className="points-split-card__sideways-label">Points</span>
+        {[...values].reverse().map((val, revIdx) => {
+          const idx = values.length - 1 - revIdx;
+          const isLast = revIdx === values.length - 1;
+          return (
+            <React.Fragment key={idx}>
+              <Half
+                value={val}
+                onIncrement={onIncrements[idx]}
+                onDecrement={onDecrements[idx]}
+                onReset={onResets[idx]}
+                flipped={flippedStates[idx]}
+                onFlip={showFlipBtn ? () => toggleFlip(idx) : undefined}
+                subtitle={subtitles[idx]}
+              />
+              {!isLast && <div className="points-split-card__divider" />}
+            </React.Fragment>
+          );
+        })}
+        <span className={`points-split-card__sideways-label${values.length >= 3 ? ' points-split-card__sideways-label--bottom' : ''}`}>Points</span>
       </>
     )}
   </div>
-);
+  );
+};
 
 export default PointsSplitCard;

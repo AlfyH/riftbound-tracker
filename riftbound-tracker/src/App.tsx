@@ -7,6 +7,8 @@ import './styles/App.css';
 export interface GameState {
   points: number;
   points2: number;
+  points3: number;
+  points4: number;
   xp: number;
   energy: number;
   power: number;
@@ -16,6 +18,8 @@ export interface GameState {
 const DEFAULT_STATE: GameState = {
   points: 0,
   points2: 0,
+  points3: 0,
+  points4: 0,
   xp: 0,
   energy: 0,
   power: 0,
@@ -27,7 +31,7 @@ function App() {
   // Merge with defaults so new fields (e.g. points2) aren't undefined on old saves
   const mergedState: GameState = { ...DEFAULT_STATE, ...state };
   const [helpOpen, setHelpOpen] = useState(false);
-  const [twoPlayer, setTwoPlayer] = useState(false);
+  const [playerCount, setPlayerCount] = useState(1);
 
   const increment = (key: keyof GameState) => {
     setState({ ...mergedState, [key]: mergedState[key] + 1 });
@@ -51,9 +55,9 @@ function App() {
         onDecrement={decrement}
         onResetTracker={resetTracker}
         onOpenHelp={() => setHelpOpen(true)}
-        twoPlayer={twoPlayer}
+        playerCount={playerCount}
       />
-      {helpOpen && <HelpOverlay onClose={() => setHelpOpen(false)} twoPlayer={twoPlayer} onToggleTwoPlayer={() => setTwoPlayer((v) => !v)} />}
+      {helpOpen && <HelpOverlay onClose={() => setHelpOpen(false)} playerCount={playerCount} onSetPlayerCount={setPlayerCount} />}
     </div>
   );
 }

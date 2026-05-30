@@ -3,8 +3,8 @@ import './HelpOverlay.css';
 
 interface HelpOverlayProps {
   onClose: () => void;
-  twoPlayer: boolean;
-  onToggleTwoPlayer: () => void;
+  playerCount: number;
+  onSetPlayerCount: (n: number) => void;
 }
 
 const INTERACTIONS = [
@@ -12,11 +12,13 @@ const INTERACTIONS = [
   { gesture: 'Swipe Down', description: 'Decrement value by 1 (min 0)' },
   { gesture: 'Double Tap', description: 'Reset that tracker to 0' },
   { gesture: '▼ / ▶ Button', description: 'Collapse or expand a tracker card' },
-  { gesture: 'Available Energy', description: 'Auto-calculated: Floating Energy + Rune Count' },
-  { gesture: 'Points timestamp', description: 'Shows how long ago Points was last changed' },
+  { gesture: '⇅ Button', description: 'Flip a player counter orientation (3P+ mode)' },
+  { gesture: 'Player Name', description: 'Tap the name field to label each player (3P+ mode)' },
+  { gesture: '? Button', description: 'Open this help screen' },
+  { gesture: 'Timestamps', description: 'Show how long ago each tracker was last changed' },
 ];
 
-const HelpOverlay: React.FC<HelpOverlayProps> = ({ onClose, twoPlayer, onToggleTwoPlayer }) => (
+const HelpOverlay: React.FC<HelpOverlayProps> = ({ onClose, playerCount, onSetPlayerCount }) => (
   <div className="help-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label="Interactions help">
     <div className="help-overlay__panel" onClick={(e) => e.stopPropagation()}>
       <div className="help-overlay__header">
@@ -32,13 +34,19 @@ const HelpOverlay: React.FC<HelpOverlayProps> = ({ onClose, twoPlayer, onToggleT
         ))}
       </ul>
       <div className="help-overlay__actions">
-        <button
-          className={`help-overlay__player-btn${twoPlayer ? ' help-overlay__player-btn--active' : ''}`}
-          onClick={onToggleTwoPlayer}
-          type="button"
-        >
-          {twoPlayer ? '✕ Remove Player 2' : '+ Add Player 2'}
-        </button>
+        <div className="help-overlay__section-label">Players</div>
+        <div className="help-overlay__player-select">
+          {[1, 2, 3, 4].map((n) => (
+            <button
+              key={n}
+              className={`help-overlay__player-count-btn${playerCount === n ? ' help-overlay__player-count-btn--active' : ''}`}
+              onClick={() => onSetPlayerCount(n)}
+              type="button"
+            >
+              {n}P
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   </div>

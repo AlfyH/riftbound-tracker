@@ -9,7 +9,7 @@ interface ResourceLayoutProps {
   onDecrement: (key: keyof GameState) => void;
   onResetTracker: (key: keyof GameState) => void;
   onOpenHelp: () => void;
-  twoPlayer: boolean;
+  playerCount: number;
 }
 
 function timeAgo(date: Date): string {
@@ -30,10 +30,12 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
   onDecrement,
   onResetTracker,
   onOpenHelp,
-  twoPlayer,
+  playerCount,
 }) => {
   const [lastChanged, setLastChanged] = useState(() => new Date());
   const [lastChanged2, setLastChanged2] = useState(() => new Date());
+  const [lastChanged3, setLastChanged3] = useState(() => new Date());
+  const [lastChanged4, setLastChanged4] = useState(() => new Date());
   const [lastChangedEnergy, setLastChangedEnergy] = useState(() => new Date());
   const [lastChangedPower, setLastChangedPower] = useState(() => new Date());
   const [lastChangedXp, setLastChangedXp] = useState(() => new Date());
@@ -54,6 +56,18 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
   if (prevPoints2Ref.current !== state.points2) {
     prevPoints2Ref.current = state.points2;
     setLastChanged2(new Date());
+  }
+
+  const prevPoints3Ref = React.useRef(state.points3);
+  if (prevPoints3Ref.current !== state.points3) {
+    prevPoints3Ref.current = state.points3;
+    setLastChanged3(new Date());
+  }
+
+  const prevPoints4Ref = React.useRef(state.points4);
+  if (prevPoints4Ref.current !== state.points4) {
+    prevPoints4Ref.current = state.points4;
+    setLastChanged4(new Date());
   }
 
   const prevEnergyRef = React.useRef(state.energy);
@@ -81,19 +95,34 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
 
   return (
     <div className="resource-layout">
-      <div className={`resource-layout__cards${twoPlayer ? ' resource-layout__cards--two-player' : ''}`}>
-        {twoPlayer ? (
+      <div className={`resource-layout__cards${playerCount > 1 ? ' resource-layout__cards--two-player' : ''}`}>
+        {playerCount > 1 ? (
           <PointsSplitCard
-            p1Value={state.points}
-            p2Value={state.points2}
-            onIncrementP1={() => onIncrement('points')}
-            onDecrementP1={() => onDecrement('points')}
-            onResetP1={() => onResetTracker('points')}
-            onIncrementP2={() => onIncrement('points2')}
-            onDecrementP2={() => onDecrement('points2')}
-            onResetP2={() => onResetTracker('points2')}
-            subtitle={`Updated ${timeAgo(lastChanged)}`}
-            subtitle2={`Updated ${timeAgo(lastChanged2)}`}
+            values={[state.points, state.points2, state.points3, state.points4].slice(0, playerCount)}
+            onIncrements={[
+              () => onIncrement('points'),
+              () => onIncrement('points2'),
+              () => onIncrement('points3'),
+              () => onIncrement('points4'),
+            ].slice(0, playerCount)}
+            onDecrements={[
+              () => onDecrement('points'),
+              () => onDecrement('points2'),
+              () => onDecrement('points3'),
+              () => onDecrement('points4'),
+            ].slice(0, playerCount)}
+            onResets={[
+              () => onResetTracker('points'),
+              () => onResetTracker('points2'),
+              () => onResetTracker('points3'),
+              () => onResetTracker('points4'),
+            ].slice(0, playerCount)}
+            subtitles={[
+              `Updated ${timeAgo(lastChanged)}`,
+              `Updated ${timeAgo(lastChanged2)}`,
+              `Updated ${timeAgo(lastChanged3)}`,
+              `Updated ${timeAgo(lastChanged4)}`,
+            ].slice(0, playerCount)}
             collapsed={pointsCollapsed}
             onToggleCollapse={() => setPointsCollapsed((v) => !v)}
           />

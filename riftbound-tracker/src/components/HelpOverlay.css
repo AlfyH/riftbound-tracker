@@ -97,15 +97,33 @@
 
 .help-overlay__actions {
   margin-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 16px;
 }
 
-.help-overlay__player-btn {
-  width: 100%;
-  padding: 10px 14px;
+.help-overlay__section-label {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 10px;
+}
+
+/* ── Player selector ───────────────────────────────────────── */
+
+.help-overlay__player-select {
+  display: flex;
+  gap: 8px;
+}
+
+.help-overlay__player-count-btn {
+  flex: 1;
+  padding: 10px 6px;
   border-radius: 12px;
-  background: rgba(0, 180, 200, 0.1);
-  border: 1px solid rgba(0, 180, 200, 0.3);
-  color: rgba(0, 220, 240, 0.9);
+  background: rgba(0, 180, 200, 0.08);
+  border: 1px solid rgba(0, 180, 200, 0.2);
+  color: rgba(255, 255, 255, 0.4);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -115,16 +133,12 @@
   touch-action: manipulation;
 }
 
-.help-overlay__player-btn:active {
-  background: rgba(0, 180, 200, 0.25);
+.help-overlay__player-count-btn:active {
+  background: rgba(0, 180, 200, 0.2);
 }
 
-.help-overlay__player-btn--active {
-  background: rgba(180, 30, 40, 0.15);
-  border-color: rgba(180, 30, 40, 0.4);
-  color: rgba(240, 80, 90, 0.9);
-}
-
-.help-overlay__player-btn--active:active {
-  background: rgba(180, 30, 40, 0.3);
+.help-overlay__player-count-btn--active {
+  background: rgba(0, 180, 200, 0.2);
+  border-color: rgba(0, 220, 240, 0.5);
+  color: rgba(0, 220, 240, 0.9);
 }

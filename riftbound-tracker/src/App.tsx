@@ -94,7 +94,7 @@ function App() {
   };
 
   const resetAll = () => {
-    setHistory(prev => [{ action: 'reset', label: 'All Trackers', gameKey: 'all', from: 0, value: 0, prevSnapshot: mergedState, time: new Date() }, ...prev].slice(0, 100));
+    setHistory(prev => [{ action: 'reset' as const, label: 'All Trackers', gameKey: 'all' as const, from: 0, value: 0, prevSnapshot: mergedState, time: new Date() }, ...prev].slice(0, 100));
     setState(DEFAULT_STATE);
   };
 

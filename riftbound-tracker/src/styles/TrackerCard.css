@@ -52,7 +52,7 @@
   background: transparent;
   border: none;
   color: rgba(255, 255, 255, 0.8);
-  font-size: 1rem;
+  font-size: 1.3rem;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -189,30 +189,45 @@
 
 .tracker-card__undo-arrow {
   position: absolute;
-  /* centre horizontally over the undo button: button right=82px, width=28px → centre at right=96px.
-     arrow is 28px wide → right = 96 - 14 = 82px */
-  right: 82px;
-  /* sit just above the button: button top = bottom 36px, leave 6px gap */
-  bottom: 44px;
   width: 28px;
-  height: 20px;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
   pointer-events: none;
-  /* draw a downward-pointing chevron using two border arms */
-  border-left: 4px solid rgba(255, 255, 255, 0.95);
-  border-bottom: 4px solid rgba(255, 255, 255, 0.95);
-  border-radius: 0 0 0 4px;
+  animation: arrow-point 1.1s ease forwards;
+  z-index: 9998;
+}
+
+.tracker-card__undo-arrow__label {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(4px);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+}
+
+.tracker-card__undo-arrow__chevron {
+  width: 10px;
+  height: 7px;
+  border-left: 2px solid rgba(255, 255, 255, 0.9);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 0 0 0 2px;
   transform: rotate(-45deg);
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
-  animation: arrow-point 0.9s ease forwards;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
 }
 
 @keyframes arrow-point {
-  0%   { opacity: 0; bottom: 52px; }
-  20%  { opacity: 1; bottom: 44px; }
-  50%  { bottom: 40px; }
-  70%  { bottom: 44px; }
-  80%  { opacity: 1; }
-  100% { opacity: 0; bottom: 44px; }
+  0%   { opacity: 0; transform: translateY(-8px); }
+  20%  { opacity: 1; transform: translateY(0); }
+  70%  { opacity: 1; transform: translateY(0); }
+  85%  { transform: translateY(-3px); }
+  100% { opacity: 0; transform: translateY(0); }
 }
 
 .tracker-card__add-player-btn {
@@ -417,6 +432,7 @@
 
 .tracker-card--large .tracker-label {
   letter-spacing: 0.1em;
+  opacity: 0.15;
 }
 
 /* ── Vertical layout for collapsible non-large cards (XP) ───────── */
@@ -443,7 +459,7 @@
 }
 
 .tracker-card:has(.tracker-card__collapse-btn):not(.tracker-card--large):not(.tracker-card--collapsed) .tracker-value {
-  font-size: clamp(32px, 8vw, 44px);
+  font-size: clamp(44px, 11vw, 60px);
 }
 
 .tracker-card--large.tracker-card--collapsed {

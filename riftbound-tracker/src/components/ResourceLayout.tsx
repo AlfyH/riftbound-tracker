@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TrackerCard from './TrackerCard';
 import PointsSplitCard from './PointsSplitCard';
 import type { GameState } from '../App';
+import rabbitLogo from '../assets/rabbit-logo.png';
 
 interface ResourceLayoutProps {
   state: GameState;
@@ -10,6 +11,7 @@ interface ResourceLayoutProps {
   onResetTracker: (key: keyof GameState) => void;
   onOpenHelp: () => void;
   onBoardReset: () => void;
+  onEndTurn: () => void;
   onUndo?: () => void;
   canUndo?: boolean;
   playerCount: number;
@@ -34,6 +36,7 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
   onResetTracker,
   onOpenHelp,
   onBoardReset,
+  onEndTurn,
   onUndo,
   canUndo,
   playerCount,
@@ -49,9 +52,14 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
   const [pointsCollapsed, setPointsCollapsed] = useState(false);
   const [xpCollapsed, setXpCollapsed] = useState(false);
   const [floatingCollapsed, setFloatingCollapsed] = useState(false);
+  const [endTurnFlash, setEndTurnFlash] = useState(false);
+  const [endTurnFlashKey, setEndTurnFlashKey] = useState(0);
+  const endTurnTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const allCollapsed = pointsCollapsed && floatingCollapsed && xpCollapsed;
 
   useEffect(() => {
-    const id = setInterval(() => setTickedNow(Date.now()), 5000);
+    const id = setInterval(() => setTickedNow(Date.now()), 3000);
     return () => clearInterval(id);
   }, []);
 
@@ -119,7 +127,26 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
               {floatingCollapsed ? '▶' : '▼'}
             </button>
             <span className="floating-group__label">Floating</span>
+            <button
+              className="floating-group__end-turn-btn"
+              onClick={() => {
+                setLastChangedEnergy(new Date());
+                setLastChangedPower(new Date());
+                if (endTurnTimerRef.current) clearTimeout(endTurnTimerRef.current);
+                setEndTurnFlash(true);
+                setEndTurnFlashKey(k => k + 1);
+                endTurnTimerRef.current = setTimeout(() => setEndTurnFlash(false), 900);
+                onEndTurn();
+              }}
+              type="button"
+              aria-label="End turn: clear energy and power"
+            >
+              End Turn
+            </button>
           </div>
+          {endTurnFlash && (
+            <div className="floating-group__end-turn-flash" key={endTurnFlashKey} aria-hidden="true"><span>Turn Ended</span></div>
+          )}
           {!floatingCollapsed && (
             <div className="floating-group__row">
               <TrackerCard
@@ -159,6 +186,12 @@ const ResourceLayout: React.FC<ResourceLayoutProps> = ({
           canUndo={canUndo}
         />
       </div>
+      {allCollapsed && (
+        <div className="resource-layout__easter-egg" aria-hidden="true">
+          <img className="resource-layout__easter-egg-logo" src={rabbitLogo} alt="" />
+          <span className="resource-layout__easter-egg-text">Anadillo Studios</span>
+        </div>
+      )}
     </div>
   );
 };

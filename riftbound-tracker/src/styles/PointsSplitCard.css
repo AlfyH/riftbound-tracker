@@ -142,8 +142,12 @@
   padding-bottom: 0.08em;
 }
 
+.points-split-card--three-player .split-half .tracker-value {
+  font-size: clamp(72px, 18vw, 100px);
+}
+
 .points-split-card--four-player .split-half .tracker-value {
-  font-size: clamp(64px, 16vw, 90px);
+  font-size: clamp(56px, 14vw, 76px);
 }
 
 /* ── Sideways "POINTS" label ─────────────────────────────────────── */

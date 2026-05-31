@@ -148,7 +148,7 @@ const PointsSplitCard: React.FC<PointsSplitCardProps> = ({
   const showFlipBtn = values.length >= 3;
 
   return (
-  <div className={`tracker-card tracker-card--large points-split-card${collapsed ? ' tracker-card--collapsed' : ''}${values.length === 4 ? ' points-split-card--four-player' : ''}`}>
+  <div className={`tracker-card tracker-card--large points-split-card${collapsed ? ' tracker-card--collapsed' : ''}${values.length === 3 ? ' points-split-card--three-player' : ''}${values.length === 4 ? ' points-split-card--four-player' : ''}`}>
     <button
       className="tracker-card__collapse-btn"
       onClick={(e) => { e.stopPropagation(); onToggleCollapse(); }}

@@ -44,7 +44,7 @@ const HelpOverlay: React.FC<HelpOverlayProps> = ({ onClose, playerCount, onSetPl
   }, []);
 
   useEffect(() => {
-    const id = setInterval(() => setTickedNow(Date.now()), 5000);
+    const id = setInterval(() => setTickedNow(Date.now()), 3000);
     return () => clearInterval(id);
   }, []);
 
@@ -114,10 +114,12 @@ const HelpOverlay: React.FC<HelpOverlayProps> = ({ onClose, playerCount, onSetPl
               <button className="help-overlay__history-clear" onClick={onClearHistory} type="button">Clear</button>
               <ul className="help-overlay__history-list">
                 {history.map((entry, i) => (
-                  <li key={i} className={`help-overlay__history-item help-overlay__history-item--${entry.action === '+1' ? 'plus' : entry.action === '-1' ? 'minus' : 'reset'}`}>
-                    <span className="help-overlay__history-action">{entry.action === '+1' ? '+1' : entry.action === '-1' ? '−1' : '↺'}</span>
+                  <li key={i} className={`help-overlay__history-item help-overlay__history-item--${entry.action === '+1' ? 'plus' : entry.action === '-1' ? 'minus' : entry.action === 'end-turn' ? 'end-turn' : 'reset'}`}>
+                    <span className="help-overlay__history-action">{entry.action === '+1' ? '+1' : entry.action === '-1' ? '−1' : entry.action === 'end-turn' ? '⏎' : '🗑'}</span>
                     <span className="help-overlay__history-label">{entry.label}</span>
-                    <span className="help-overlay__history-value">{entry.from} → {entry.value}</span>
+                    {!(entry.action === 'end-turn' && entry.from === 0 && entry.value === 0) && (
+                      <span className="help-overlay__history-value">{entry.from} → {entry.value}</span>
+                    )}
                     <span className="help-overlay__history-time">{timeAgo(entry.time, tickedNow)}</span>
                   </li>
                 ))}
@@ -140,6 +142,11 @@ const HelpOverlay: React.FC<HelpOverlayProps> = ({ onClose, playerCount, onSetPl
                   A mobile-first life &amp; resource tracker for the Riftbound card game.
                   Track Points, XP, Energy, and Power for up to 4 players — all from one screen, no paper needed.
                 </p>
+              </div>
+              <div className="help-overlay__about-section">
+                <span className="help-overlay__about-heading">Install as an App</span>
+                <p className="help-overlay__about-body"><strong>iPhone / iPad (Safari):</strong> tap the Share button <em>⎙</em> at the bottom of the screen, then select <strong>Add to Home Screen</strong>.</p>
+                <p className="help-overlay__about-body"><strong>Android (Chrome):</strong> tap the three-dot menu <em>⋮</em> in the top-right corner, then select <strong>Add to Home Screen</strong> or <strong>Install app</strong>.</p>
               </div>
               <div className="help-overlay__about-section">
                 <span className="help-overlay__about-heading">Accessibility</span>

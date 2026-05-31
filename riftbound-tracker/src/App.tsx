@@ -16,7 +16,7 @@ export interface GameState {
 }
 
 export interface ActionEntry {
-  action: '+1' | '-1' | 'reset';
+  action: '+1' | '-1' | 'reset' | 'end-turn';
   label: string;
   gameKey: keyof GameState | 'all';
   from: number;
@@ -93,6 +93,24 @@ function App() {
     }
   };
 
+  const endTurn = () => {
+    const now = new Date();
+    const entries: ActionEntry[] = [];
+    if (mergedState.energy !== 0) {
+      entries.push({ action: 'end-turn' as const, label: 'Energy', gameKey: 'energy' as const, from: mergedState.energy, value: 0, time: now });
+    }
+    if (mergedState.power !== 0) {
+      entries.push({ action: 'end-turn' as const, label: 'Power', gameKey: 'power' as const, from: mergedState.power, value: 0, time: now });
+    }
+    if (entries.length === 0) {
+      entries.push({ action: 'end-turn' as const, label: 'End Turn', gameKey: 'energy' as const, from: 0, value: 0, time: now });
+    }
+    setHistory(prev => [...entries, ...prev].slice(0, 100));
+    if (mergedState.energy !== 0 || mergedState.power !== 0) {
+      setState(s => ({ ...s, energy: 0, power: 0 }));
+    }
+  };
+
   const resetAll = () => {
     setHistory(prev => [{ action: 'reset' as const, label: 'All Trackers', gameKey: 'all' as const, from: 0, value: 0, prevSnapshot: mergedState, time: new Date() }, ...prev].slice(0, 100));
     setState(DEFAULT_STATE);
@@ -107,6 +125,7 @@ function App() {
         onResetTracker={resetTracker}
         onOpenHelp={() => setHelpOpen(true)}
         onBoardReset={resetAll}
+        onEndTurn={endTurn}
         onUndo={undo}
         canUndo={history.length > 0}
         playerCount={playerCount}

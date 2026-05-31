@@ -53,6 +53,8 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
   const lastTapTimeRef = useRef<number>(0);
   const feedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const wasSwipingRef = useRef(false);
+  const undoBtnRef = useRef<HTMLButtonElement>(null);
+  const [undoBtnPos, setUndoBtnPos] = useState<{left: number, bottom: number} | null>(null);
 
   const showFlash = (text: string, subtext?: string) => {
     if (flashTimerRef.current) clearTimeout(flashTimerRef.current);
@@ -64,6 +66,13 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
     flashTimerRef.current = setTimeout(() => setFlash(null), 1100);
     if (subtext) {
       flashSubSchedulerRef.current = setTimeout(() => {
+        if (undoBtnRef.current) {
+          const rect = undoBtnRef.current.getBoundingClientRect();
+          setUndoBtnPos({
+            left: rect.left + rect.width / 2 - 14,
+            bottom: window.innerHeight - rect.top + 6,
+          });
+        }
         setFlashSub(subtext);
         setFlashSubKey(k => k + 1);
         flashSubTimerRef.current = setTimeout(() => setFlashSub(null), 900);
@@ -172,11 +181,11 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
       {onBoardReset && (
         <button
           className="tracker-card__board-reset-btn"
-          onClick={(e) => { e.stopPropagation(); showFlash('Reset all', 'Undo?'); onBoardReset(); }}
+          onClick={(e) => { e.stopPropagation(); showFlash('Reset all', '\u00a0'); onBoardReset(); }}
           aria-label="Reset all trackers"
           type="button"
         >
-          ↺
+          🗑
         </button>
       )}
       {onUndo && (
@@ -186,8 +195,9 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
           aria-label="Undo last action"
           type="button"
           disabled={!canUndo}
+          ref={undoBtnRef}
         >
-          ↶
+          ↺
         </button>
       )}
       <div
@@ -200,11 +210,18 @@ const TrackerCard: React.FC<TrackerCardProps> = ({
       {(flash || flashSub) && (
         <div aria-hidden="true" className="tracker-card__screen-flash">
           {flash && <span className="tracker-card__screen-flash-label" key={flashKey}>{flash}</span>}
-          {flashSub && <span className="tracker-card__screen-flash-sublabel" key={flashSubKey}>{flashSub}</span>}
+          {flashSub && flashSub.trim() && <span className="tracker-card__screen-flash-sublabel" key={flashSubKey}>{flashSub}</span>}
+          {flashSub && (
+            <div
+              className="tracker-card__undo-arrow"
+              key={`a${flashSubKey}`}
+              style={undoBtnPos ? { left: undoBtnPos.left, bottom: undoBtnPos.bottom } : undefined}
+            >
+              <span className="tracker-card__undo-arrow__label">Undo?</span>
+              <span className="tracker-card__undo-arrow__chevron" />
+            </div>
+          )}
         </div>
-      )}
-      {flashSub && (
-        <div className="tracker-card__undo-arrow" key={`a${flashSubKey}`} />
       )}
       {onAddPlayer && (
         <button
